@@ -1,0 +1,83 @@
+﻿@model UIdESIGN.Models.LoginModel
+@{
+    ViewData["Title"] = "LoginAccount";
+    Layout = "_AccountLayout";
+}
+
+<div class="col-md-12">
+    <div class="card-title">
+        <div class="card-header"><i class="fa fa-user-check" style="font-size:50px;"></i></div>
+        <div class="card-header">
+            <div class="card-body">
+                <form class="offset-1" method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="row">
+                        <div class="input-group col-md-11">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text px-3 border-md border-right-0">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </div>
+                            <input id="username" type="text" asp-for="Email" placeholder="Username" class="form-control border-left-0 border-md">
+                        </div>   
+                    </div>
+                    &nbsp;
+                    <div class="row">
+                        <div class="input-group col-md-11">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text px-3 border-md border-right-0">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                            </div>
+                            <input id="Password" type="password" asp-for="Password" placeholder="Password" class="form-control border-left-0 border-md">
+                        </div>
+                    </div>
+                    &nbsp;
+                    <div class="row">
+                        <div class="input-group col-md-11">
+                            <div class="input-group">
+                                <input type="submit" value="Login" name="Save" class="form-control btn-block btn-success">
+                            </div>
+                        </div> 
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    @*<div class="container">
+        <div class="row">
+            <div class="col-md-10 offset-1">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <form method="post" class="form-signin">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+
+                            <div class="form-label-group">
+                                <label asp-for="Email"></label>
+                                <input asp-for="Email" id="inputEmail" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-label-group">
+                                <label asp-for="Password"></label>
+                                <input asp-for="Password" id="pswd" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-label-group">
+                                <div class="col-sm-12">
+                                    <div class="custom-control custom-checkbox"></div>
+                                    <label asp-for="Password" class="custom-control-label">@Html.DisplayNameFor(m => m.RememberMe)</label>
+                                    <input asp-for="RememberMe" type="checkbox" class="custom-control-input" />
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@

@@ -69,7 +69,7 @@ namespace UIdESIGN.Controllers
                 }
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
-            return View(model);
+            return View(model);  
         }
         public async Task<IActionResult> Logout()
         {
@@ -77,4 +77,5 @@ namespace UIdESIGN.Controllers
             return RedirectToAction("Login");
         }
     }
+
 }

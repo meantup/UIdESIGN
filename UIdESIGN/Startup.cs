@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using UIdESIGN.Models.AppDBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using UIdESIGN.Models;
 
 namespace UIdESIGN
 {
@@ -28,7 +29,7 @@ namespace UIdESIGN
             string connectionString = Configuration.GetConnectionString("DefaultCon");
             services.AddDbContext<AppDBContext>(x => x.UseSqlServer(connectionString));
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
-
+            //services.AddScoped<IRepository, SampleDataDetails>();
             services.AddControllersWithViews();
         }
 

@@ -7,19 +7,35 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/datatables/css/jquery.dataTables.css" rel="stylesheet" />
+    <link href="~/lib/sweetalert/sweetalert2.min.css" rel="stylesheet" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UIdESIGN</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    @if(User.Identity.IsAuthenticated)
-                    {
+        @if (User.Identity.IsAuthenticated)
+        {
+            <nav class="navbar navbar-expand bg-info navbar-dark navbar-fixed-top ">
+                <a class="navbar-brand">User Info</a>
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i>Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-user-edit"></i>Account</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-plus"></i>Add User</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Order"><i class="fas fa-cart-plus"></i>Purchase Order</a></li>
+                </ul>
+                <ul class="nav navbar-nav my-2 my-lg-0">
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    @*<li class="nav-item"><a class="nav-link" href="login"><i class="fas fa-sign-in-alt"></i> Login</a></li>*@
+                </ul>
+            </nav>
+            <!--<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UIdESIGN</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -27,26 +43,31 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                            </li>
-                        </ul>
-                    }
-                    else
-                    {
+
+                        </ul>-->
+            @*<ul class="navbar-nav flex-grow-1">
+                   <li class="nav-item">
+                       <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                   </li>
+                   <li class="nav-item">
+                       <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                   </li>
+                </ul>*@
+            <!--</div>
+                    <div class="nav navbar-nav navbar-left">
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            </li> 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout"><i class="fa fa-sign-out"></i>Logout</a>
                             </li>
                         </ul>
-                    }
-
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>-->
+        }
+        else
+        {
+
+        }
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -54,14 +75,19 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - UIdESIGN - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    @*<footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2021 - UIdESIGN - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+    <script src="~/lib/datatables/js/jquery.dataTables.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/sweetalert/sweetalert2.min.js"></script>
+    @RenderSection("Scripts", false)
+    @RenderSection("OrderScript", false)
+
 </body>
 </html>

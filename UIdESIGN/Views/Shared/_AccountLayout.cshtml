@@ -1,29 +1,62 @@
 ﻿@{
     Layout = "_Layout";
 }
-
-<div class="row">
+&nbsp;&nbsp;&nbsp;
+<div class="row mt-5 pt-5">
     <div class="col-md-6 offset-md-3">
-        <div class="card login-logout-tab">
-            <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs">
+        <div class="card bg-light mb-2">
+            <div class="card-body">
+                <ul class="nav nav-tabs nav-fill mb-2 card-header-tabs">
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                        <a class="nav-link" asp-controller="Account" asp-action="Login"><i class="fas fa-power-off"></i>Login</a>
+                        @*<a class="nav-link" href="/Account/Login"><b>Login</b></a>*@
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                        <a class="nav-link" asp-controller="Account" asp-action="Register"><i class="fas fa-plus-circle"></i> Sign Up</a>
+                        @*<a class="nav-link" href="/Account/Register"><b>Sign Up</b></a>*@
                     </li>
                 </ul>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
+                <div class="container">
+                    <main role="main" class="pb-3">
                         @RenderBody()
-                    </div>
+                    </main>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+@section Scripts{
+    @RenderSection("Scripts", required: false)
+    <script>
+        $(function () {
+            var current = location.pathname;
+            $('.nav-tabs li a').each(function () {
+                var $this = $(this);
+                if (current.indexOf($this.attr('asp-controller,asp-action')) !== -1) {
+                    $this.addClass('active');
+                }
+            })
+        })
+    </script>
+}
 
+@*<div class="row mt-4 pt-4 hero">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Login"><i class="fas fa-power-off"></i>Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Register"><i class="fas fa-registered"></i> Register</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>*@

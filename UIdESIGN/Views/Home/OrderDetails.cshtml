@@ -1,14 +1,14 @@
 ﻿@using System.Data;
 @model UIdESIGN.Models.Inquiry
 @{
-    ViewData["Title"] = "Order";
+    ViewData["Title"] = "OrderDetails";
 }
 <style>
     #textgrop {
         position: absolute;
         margin-bottom: 0;
         margin-top: -30px;
-        margin-left: 150px;
+        margin-left: 300px;
     }
 </style>
 
@@ -16,7 +16,7 @@
     <div class="card">
         <div class="card-header">
             <i class="fas fa-cart-plus"></i>History Purchase Order &nbsp;
-            <form method="post" id="formdate">
+            <form method="get" id="formdate">
                 <div class="input-group col-md-8 offset-4" id="textgrop">
                     <div class="input-group-prepend">
                         <span class="input-group-text">StartDate</span>
@@ -52,7 +52,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" id="UserUpdate" enctype="multipart/form-data">
+                <form method="get" id="UserUpdate" enctype="multipart/form-data">
                     <div class="container" style="width:fit-content" id="updateInfo">
                         <br />
                         <div class="col-12">
@@ -135,53 +135,72 @@
             });
 
             $('#update').on('click', function (e) {
-                    const formData = $('#UserUpdate').serialize();
-                $.ajax({
-                    type: 'POST',
-                    cache: false,
-                    data: formData,
-                    url: '@Url.Action("Update","Home")?id=' + id + '',
-                    success: function (response) {
-                        if (response.isSuccess === true) {
-                            Swal.fire({
-                                allowOutsideClick: false,
-                                title: 'Successful',
-                                html: response.msg,
-                                icon: 'success'
-                            }).then(function () {
-                                var table = $('#datatable').DataTable();
-                                table.clear().draw();
-                                table.destroy();
-                                const formData = $('#formdate').serialize();
-                                $.ajax({
-                                    type: "POST",
-                                    data: formData,
-                                    dataType: 'json',
-                                    url: '@Url.Action("Order","Home")',
-                                    success: function (response) {
-                                        inQuiry(response);
-                                        $('#edituser').modal('hide');
-                                    },
-                                    failure: function (response) {
-                                        alert(response.d);
-                                    },
-                                    error: function (response) {
-                                        alert(response.d);
-                                    }
-                                });
-                            });
-                        } else {
-                            Swal.fire({
-                                allowOutsideClick: false,
-                                title: 'Unsuccessful',
-                                html: response.msg,
-                                icon: 'warning'
-                            }).then(function () {
-
-                            })
-                        }
+                const formData = $('#UserUpdate').serialize();
+                const fdata = $('#UserUpdate').serializeArray();
+                var count = 0;
+                fdata.forEach(function (item, index) {
+                    console.log(item.value);
+                    if (iname === item.value || idesc === item.value || icode === item.value || amount === item.value || quantity === item.value) {
+                        count++;
                     }
                 });
+                if (count === fdata.length) {
+                    Swal.fire({
+                        allowOutsideClick: false,
+                        title: 'Information',
+                        html: 'Please Update Some Data!',
+                        icon: 'info'
+                    }).then(function () {
+                        $('#edituser').modal('hide');
+                    });
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        cache: false,
+                        data: formData,
+                        url: '@Url.Action("Update","Home")?id=' + id + '',
+                        success: function (response) {
+                            if (response.isSuccess === true) {
+                                Swal.fire({
+                                    allowOutsideClick: false,
+                                    title: 'Successful',
+                                    html: response.msg,
+                                    icon: 'success'
+                                }).then(function () {
+                                    var table = $('#datatable').DataTable();
+                                    table.clear().draw();
+                                    table.destroy();
+                                    const formData = $('#formdate').serialize();
+                                    $.ajax({
+                                        type: "POST",
+                                        data: formData,
+                                        dataType: 'json',
+                                        url: '@Url.Action("Order","Home")',
+                                        success: function (response) {
+                                            inQuiry(response);
+                                            $('#edituser').modal('hide');
+                                        },
+                                        failure: function (response) {
+                                            alert(response.d);
+                                        },
+                                        error: function (response) {
+                                            alert(response.d);
+                                        }
+                                    });
+                                });
+                            } else {
+                                Swal.fire({
+                                    allowOutsideClick: false,
+                                    title: 'Unsuccessful',
+                                    html: response.msg,
+                                    icon: 'warning'
+                                }).then(function () {
+
+                                })
+                            }
+                        }
+                    });
+                }
             });
         });
         function inQuiry(d) {
@@ -207,7 +226,7 @@
                                 var n5 = row["quantity"];
 
                                 return '<button class="btn btn-sm btn-success" onclick="funclick(\'' + data + '\', \'' + n1 + '\', \'' + n2 + '\', \'' + n3 + '\', \'' + n4 + '\', \'' + n5 + '\')" data-toggle="modal" data-target="#edituser" style="width:50px;"><span class="fas fa-user-edit"></span></button>' +
-                                    '<button class="btn btn-sm btn-danger" id="btnRemove" onclick="remove(\'' + data + '\')" style="width:50px;"><span class="fas fa-trash"></span></button>'
+                                       '<button class="btn btn-sm btn-danger" id="btnRemove" onclick="remove(\'' + data + '\', \'' + n1 + '\')" style="width:50px;"><span class="fas fa-trash"></span></button>'
                             }
                         }
                     ]
@@ -217,11 +236,17 @@
         function funclick(ID,n1, n2, n3, n4, n5) {
             reset();
             id = ID;
-            iname = $('#iname').val(n1);
-            idesc = $('#idesc').val(n2);
-            icode = $('#icode').val(n3);
-            amount = $('#amount').val(n4);
-            quantity = $('#quantity').val(n5);
+            $('#iname').val(n1);
+            $('#idesc').val(n2);
+            $('#icode').val(n3);
+            $('#amount').val(n4);
+            $('#quantity').val(n5);
+            iname = $('#iname').val();
+            idesc = $('#idesc').val();
+            icode = $('#icode').val();
+            amount = $('#amount').val();
+            quantity = $('#quantity').val();
+
         }
         function reset() {
             //$('#id').css("border-color", "gray"); $('#req0').hide();
@@ -232,12 +257,13 @@
             $('#quantity').css("border-color", "gray"); $('#req5').hide();
         }
 
-        function remove(id_item) {
+        function remove(id_item,name) {
             //var table = $('#datatable').DataTable();
             Swal.fire({
-                title: 'Confirmation!',
-                text: 'Do you want to proceed?',
-                icon: 'information',
+                allowOutsideClick: false,
+                title: 'Are you sure you want to delete ' + name + '',
+                html: 'Do you want to proceed?',
+                icon: 'warning',
                 showDenyButton: false,
                 showCancelButton: true,
                 confirmButtonText: 'Yes',
@@ -257,7 +283,7 @@
                                     html: data.msg,
                                     icon: 'success'
                                 }).then(function () {
-                                    $(row).closest('tr').remove(); 
+                                    $(row).closest('tr').remove();
                                 });
                             }
                         }

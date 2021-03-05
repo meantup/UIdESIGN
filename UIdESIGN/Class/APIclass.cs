@@ -15,8 +15,8 @@ namespace UIdESIGN.Class
     {
         public static string defaultHost()
         {
-            string uri = string.Format("http://172.17.18.171/Default/");
-            return uri;
+           var uri = string.Format("http://172.17.18.171/Default/");
+           return uri;
         }
         public string Details(Inquiry InQui)
         {

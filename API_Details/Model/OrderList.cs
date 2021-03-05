@@ -40,4 +40,12 @@ namespace API_Details.Model
         public decimal amount { get; set; }
         public int quantity { get; set; }
     }
+    public class Add
+    {
+        public string iname { get; set; }
+        public string idesc { get; set; }
+        public string icode { get; set; }
+        public decimal amount { get; set; }
+        public int quantity { get; set; }
+    }
 }

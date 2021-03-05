@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -6,9 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UIdESIGN.Models;
+using UIdESIGN.Models.ServiceResponse;
 
 namespace UIdESIGN.Controllers
 {
@@ -16,7 +19,14 @@ namespace UIdESIGN.Controllers
     public class HomeController : Controller
     {
         Class.APIclass api = new Class.APIclass();
-    
+
+        private readonly IHostingEnvironment env;
+
+        public HomeController(IHostingEnvironment _env)
+        {
+            env = _env;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -35,17 +45,19 @@ namespace UIdESIGN.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string retval = api.Details(inQui);
-                    dt = (DataTable)JsonConvert.DeserializeObject(retval, typeof(DataTable));
-                    if (dt.Rows.Count > 0)
+                    var retval = api.Details(inQui);
+                    var res = JsonConvert.DeserializeObject<response<List<OrderDetails>>>(retval);
+                    var data = JsonConvert.SerializeObject(res.result);
+                    dt = (DataTable)JsonConvert.DeserializeObject(data, typeof(DataTable));
+                    if (res.message.Equals("Successful"))
                     {
                         list = dt.AsEnumerable().Select(x => new OrderDetails
                         {
                             id = int.Parse(x["id"].ToString()),
-                            iname = x["ProductName"].ToString(),
-                            idesc = x["ProductDesc"].ToString(),
-                            icode = x["ProductCode"].ToString(),
-                            amount = double.Parse(x["amounT"].ToString()),
+                            productName = x["ProductName"].ToString(),
+                            productDesc = x["ProductDesc"].ToString(),
+                            productCode = x["ProductCode"].ToString(),
+                            amounT = double.Parse(x["amounT"].ToString()),
                             quantity = int.Parse(x["quantity"].ToString()),
                             tdt = DateTime.Parse(x["tdt"].ToString())
                         }).ToList();
@@ -77,6 +89,28 @@ namespace UIdESIGN.Controllers
             _msg = retval.Contains(Convert.ToString(1)) ? "Successfully Updated!" : "Unsuccessful Updated!";
             _iSsuccess = _msg.Equals("Unsuccessful Updated!") ? false : true;
             return Json(new { isSuccess = _iSsuccess, msg = _msg });
+        }
+        [HttpGet]
+        public IActionResult AddItem()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddProduct(Add itm)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return Json(new { });
         }
     }
 }

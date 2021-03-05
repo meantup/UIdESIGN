@@ -10,12 +10,16 @@
         margin-top: -30px;
         margin-left: 300px;
     }
+
+    .spaniard {
+        width: 155px;
+    }
 </style>
 
 <div class="mt-5 pt-5">
     <div class="card">
         <div class="card-header">
-            <i class="fas fa-cart-plus"></i>History Purchase Order &nbsp;
+            <i class="fas fa-history"></i>Purchase History&nbsp;
             <form method="get" id="formdate">
                 <div class="input-group col-md-8 offset-4" id="textgrop">
                     <div class="input-group-prepend">
@@ -59,37 +63,37 @@
                             <div class="form-group">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><b>Item Name</b></span>
+                                        <span class="input-group-text spaniard"><b>Item Name</b></span>
                                     </div>
-                                    <input type="text" placeholder="Item Name" name="iName" id="iname" class="input-sm form-control" maxlength="30" />
+                                    <input type="text" placeholder="Item Name" name="productName" id="productName" class="input-sm form-control" maxlength="30" />
                                     <center><b><span id="req1" style="color:red">Item Name is required</span><br /></b></center>
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><b>Item Description</b></span>
+                                        <span class="input-group-text spaniard"><b>Item Description</b></span>
                                     </div>
-                                    <input type="text" placeholder="Item Description" name="iDesc" id="idesc" class="input-sm form-control" maxlength="30" />
+                                    <input type="text" placeholder="Item Description" name="productDesc" id="productDesc" class="input-sm form-control" maxlength="30" />
                                     <center><b><span id="req2" style="color:red">Item Description is required</span><br /></b></center>
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><b>Item Code</b></span>
+                                        <span class="input-group-text spaniard"><b>Item Code</b></span>
                                     </div>
-                                    <input type="text" placeholder="Item Code" name="iCode" id="icode" class="input-sm form-control" maxlength="30" />
+                                    <input type="text" placeholder="Item Code" name="productCode" id="productCode" class="input-sm form-control" maxlength="30" />
                                     <center><b><span id="req3" style="color:red">Item Code is required</span><br /></b></center>
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text spaniard"><b>Amount</b></span>
                                     </div>
-                                    <input type="number" placeholder="Amount" name="Amount" id="amount" class="input-sm form-control" maxlength="30" />
+                                    <input type="number" placeholder="Amount" name="amounT" id="amounT" class="input-sm form-control" maxlength="30" />
                                     <center><b><span id="req4" style="color:red">Amount is required</span><br /></b></center>
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text spaniard"><b>Quantity</b></span>
                                     </div>
-                                    <input type="number" placeholder="Quantity" name="Quantity" id="quantity" class="input-sm form-control" maxlength="30" />
+                                    <input type="number" placeholder="Quantity" name="Quantity" id="quantity" class="input-sm form-control" maxlength="30" onchange="WholeNUmber()"/>
                                     <center><b><span id="req5" style="color:red">Quantity is required</span><br /></b></center>
                                 </div>
                             </div>
@@ -106,192 +110,5 @@
 </div>
 
 @section OrderScript{
-    <script type="text/javascript">
-        var id = "";
-        var iname = "";
-        var idesc = "";
-        var icode = "";
-        var amount = "";
-        var quantity = "";
-        $(function () {
-            $('#formdate').on('submit', function (e) {
-                e.preventDefault();
-                const formData = $('#formdate').serializeArray();
-                $.ajax({
-                    type: "POST",
-                    data: formData,
-                    dataType: 'json',
-                    url: '@Url.Action("Order","Home")',
-                    success: function (response) {
-                        inQuiry(response);
-                    },
-                    failure: function (response) {
-                        alert(response.d);
-                    },
-                    error: function (response) {
-                        alert(response.d);
-                    }
-                });
-            });
-
-            $('#update').on('click', function (e) {
-                const formData = $('#UserUpdate').serialize();
-                const fdata = $('#UserUpdate').serializeArray();
-                var count = 0;
-                fdata.forEach(function (item, index) {
-                    console.log(item.value);
-                    if (iname === item.value || idesc === item.value || icode === item.value || amount === item.value || quantity === item.value) {
-                        count++;
-                    }
-                });
-                if (count === fdata.length) {
-                    Swal.fire({
-                        allowOutsideClick: false,
-                        title: 'Information',
-                        html: 'Please Update Some Data!',
-                        icon: 'info'
-                    }).then(function () {
-                        $('#edituser').modal('hide');
-                    });
-                } else {
-                    $.ajax({
-                        type: 'POST',
-                        cache: false,
-                        data: formData,
-                        url: '@Url.Action("Update","Home")?id=' + id + '',
-                        success: function (response) {
-                            if (response.isSuccess === true) {
-                                Swal.fire({
-                                    allowOutsideClick: false,
-                                    title: 'Successful',
-                                    html: response.msg,
-                                    icon: 'success'
-                                }).then(function () {
-                                    var table = $('#datatable').DataTable();
-                                    table.clear().draw();
-                                    table.destroy();
-                                    const formData = $('#formdate').serialize();
-                                    $.ajax({
-                                        type: "POST",
-                                        data: formData,
-                                        dataType: 'json',
-                                        url: '@Url.Action("Order","Home")',
-                                        success: function (response) {
-                                            inQuiry(response);
-                                            $('#edituser').modal('hide');
-                                        },
-                                        failure: function (response) {
-                                            alert(response.d);
-                                        },
-                                        error: function (response) {
-                                            alert(response.d);
-                                        }
-                                    });
-                                });
-                            } else {
-                                Swal.fire({
-                                    allowOutsideClick: false,
-                                    title: 'Unsuccessful',
-                                    html: response.msg,
-                                    icon: 'warning'
-                                }).then(function () {
-
-                                })
-                            }
-                        }
-                    });
-                }
-            });
-        });
-        function inQuiry(d) {
-            if ($.fn.DataTable.isDataTable("#datatable")) {
-                $("#datatable").DataTable().destroy();
-            }
-            $("#datatable").DataTable(
-                {
-                    data: d,
-                    columns: [
-                        { 'data': 'iname', "title": "Item Name" },
-                        { 'data': 'idesc', "title": "Item Description" },
-                        { 'data': 'icode', "title": "Item Code" },
-                        { 'data': 'amount', "title": "Amount" },
-                        { 'data': 'quantity', "title": "Quantity" },
-                        { 'data': 'tdt', "title": "Transaction Date" },
-                        {
-                            'data': 'id', "title": "Action", "render": function (data, type, row) {
-                                var n1 = row["iname"];
-                                var n2 = row["idesc"];
-                                var n3 = row["icode"];
-                                var n4 = row["amount"];
-                                var n5 = row["quantity"];
-
-                                return '<button class="btn btn-sm btn-success" onclick="funclick(\'' + data + '\', \'' + n1 + '\', \'' + n2 + '\', \'' + n3 + '\', \'' + n4 + '\', \'' + n5 + '\')" data-toggle="modal" data-target="#edituser" style="width:50px;"><span class="fas fa-user-edit"></span></button>' +
-                                       '<button class="btn btn-sm btn-danger" id="btnRemove" onclick="remove(\'' + data + '\', \'' + n1 + '\')" style="width:50px;"><span class="fas fa-trash"></span></button>'
-                            }
-                        }
-                    ]
-
-                });
-        }
-        function funclick(ID,n1, n2, n3, n4, n5) {
-            reset();
-            id = ID;
-            $('#iname').val(n1);
-            $('#idesc').val(n2);
-            $('#icode').val(n3);
-            $('#amount').val(n4);
-            $('#quantity').val(n5);
-            iname = $('#iname').val();
-            idesc = $('#idesc').val();
-            icode = $('#icode').val();
-            amount = $('#amount').val();
-            quantity = $('#quantity').val();
-
-        }
-        function reset() {
-            //$('#id').css("border-color", "gray"); $('#req0').hide();
-            $('#iname').css("border-color", "gray"); $('#req1').hide();
-            $('#idesc').css("border-color", "gray"); $('#req2').hide();
-            $('#icode').css("border-color", "gray"); $('#req3').hide();
-            $('#amount').css("border-color", "gray"); $('#req4').hide();
-            $('#quantity').css("border-color", "gray"); $('#req5').hide();
-        }
-
-        function remove(id_item,name) {
-            //var table = $('#datatable').DataTable();
-            Swal.fire({
-                allowOutsideClick: false,
-                title: 'Are you sure you want to delete ' + name + '',
-                html: 'Do you want to proceed?',
-                icon: 'warning',
-                showDenyButton: false,
-                showCancelButton: true,
-                confirmButtonText: 'Yes',
-                denyButtonText: 'Cancel',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: 'get',
-                        data: JSON.stringify({ 'id': id_item }),
-                        url: '@Url.Action("Remove","Home")?id='+id_item+'',
-                        success: function (data) {
-                            if (data.hasOwnProperty('isSuccess') && data.isSuccess === true)
-                            {
-                                Swal.fire({
-                                    allowOutsideClick: false,
-                                    title: 'Deleted!',
-                                    html: data.msg,
-                                    icon: 'success'
-                                }).then(function () {
-                                    $(row).closest('tr').remove();
-                                });
-                            }
-                        }
-                    });
-                }
-
-            });
-        }
-
-    </script>
+   <script src="~/Script/OrderDetails.js"></script>
 }

@@ -2,6 +2,7 @@
 using AutoMapper;
 using Dapper;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -24,7 +25,8 @@ namespace API_Details.Model
             try
             {
                 var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-                return builder.Build().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value;
+                var ss = builder.Build().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value;
+                return ss;
             }
             catch (Exception)
             {
@@ -33,7 +35,7 @@ namespace API_Details.Model
             }
         }
 
-        public async Task<Response<int>> DataADD(Update add)
+        public async Task<Response<int>> DataADD(Add add)
         {
             var res = new Response<int>();
             var conn = ConnectionString();
@@ -64,8 +66,9 @@ namespace API_Details.Model
             return res;
         }
 
-        public async Task<List<OrderList1>> postItem(string startDate, string endDate)
+        public async Task<Response<List<OrderList1>>> postItem(string startDate, string endDate)
         {
+            var response = new Response<List<OrderList1>>();
             var conn = ConnectionString();
             try
             {
@@ -73,18 +76,22 @@ namespace API_Details.Model
                 {
                     con.Open();
                     DynamicParameters param = new DynamicParameters();
+                    param.Add("retval", SqlDbType.Int ,direction: ParameterDirection.Output);
                     param.Add("@from",startDate,DbType.DateTime);
                     param.Add("@to", endDate, DbType.DateTime);
                     var ss = con.Query<T>("usp_InquiryDate", param, commandType: CommandType.StoredProcedure).AsList();
                     var res = await Task.Run(()=> _mapper.Map<List<OrderList1>>(ss));
-                    return res;
+                    var serial = JsonConvert.SerializeObject(res);
+                    response.message = param.Get<int>("retval") == 100 ? "Successful" : "No Data Found!";
+                    response.Result = res;
+                    return response;
                 }
             }
             catch (Exception ee)
             {
-                return new List<OrderList1>();
+                response.message = ee.Message;
             }
-
+            return response;
         }
         public async Task<Response<int>> RemoveRecord(int id)
         {

@@ -22,9 +22,8 @@ namespace API_Details.Controllers
         [HttpGet("Inquiry")]
         public async Task<IActionResult> OrderList(string startDate, string endDate)
         {
-            List<OrderList1> list = new List<OrderList1>();
-            list = await _repository.postItem(startDate,endDate);
-            return Ok(list);
+            var clist = await _repository.postItem(startDate,endDate);
+            return Ok(clist);
         }
         [HttpGet("Remove")]
         public async Task<IActionResult> RemoveItem(int id)
@@ -41,7 +40,7 @@ namespace API_Details.Controllers
             return Ok(res);
         }
         [HttpPost("Add")]
-        public async Task<IActionResult> ADD_data(Update add)
+        public async Task<IActionResult> ADD_data(Add add)
         {
             var res = new Response<int>();
             res = await _repository.DataADD(add);

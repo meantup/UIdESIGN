@@ -24,6 +24,7 @@ namespace UIdESIGN.Models
         public int quantity { get; set; }
         [Required]
         public DateTime tdt { get; set; }
+        public string photoImage { get; set; }
     }
     public class Update
     {

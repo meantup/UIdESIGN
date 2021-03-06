@@ -95,6 +95,7 @@ $(function () {
         }
     });
 });
+
 function inQuiry(d) {
     if ($.fn.DataTable.isDataTable("#datatable")) {
         $("#datatable").DataTable().destroy();
@@ -103,6 +104,12 @@ function inQuiry(d) {
     {
         data: d,
         columns: [
+            {
+                'data': "photoImage", "title" : "Product Photo",
+                "render": function (data) {
+                    return '<img src="' + data + '" width="150px" height="150px">';
+                }
+            },
             { 'data': 'productName', "title": "Item Name" },
             { 'data': 'productDesc', "title": "Item Description" },
             { 'data': 'productCode', "title": "Item Code" },

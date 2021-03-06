@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,15 +16,15 @@ namespace UIdESIGN.Class
     {
         public static string defaultHost()
         {
-           var uri = string.Format("http://172.17.18.171/Default/");
-           return uri;
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            return builder.Build().GetSection("Hosting").Value;
         }
         public string Details(Inquiry InQui)
         {
             string val = string.Empty;
             try
             {
-                Uri uri = new Uri(string.Format(defaultHost().Trim() + "Inquiry?startDate={0}&endDate={1}", InQui.startDate.Trim(), InQui.endDate.Trim()));
+                Uri uri = new Uri(string.Format(defaultHost().Trim() + "Default/Inquiry?startDate={0}&endDate={1}", InQui.startDate.Trim(), InQui.endDate.Trim()));
 
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -47,7 +48,7 @@ namespace UIdESIGN.Class
             string val = string.Empty;
             try
             {
-                Uri uri = new Uri(string.Format(defaultHost().Trim() + "Remove?id={0}", id));
+                Uri uri = new Uri(string.Format(defaultHost().Trim() + "Default/Remove?id={0}", id));
 
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -72,8 +73,29 @@ namespace UIdESIGN.Class
             string val = string.Empty;
             try
             {
-                Uri uri = new Uri(string.Format(defaultHost().Trim() + "Update?id={0}", id));
+                Uri uri = new Uri(string.Format(defaultHost().Trim() + "Default/Update?id={0}", id));
                 string jsonData = JsonConvert.SerializeObject(up);
+                string response = string.Empty;
+                using (var client = new WebClient())
+                {
+                    client.Headers.Add("content-type", "application/json");
+                    response = Encoding.ASCII.GetString(client.UploadData(uri, "POST", Encoding.UTF8.GetBytes(jsonData)));
+                }
+                return response;
+            }
+            catch (Exception)
+            {
+                val = "ERROR404";
+            }
+            return val;
+        }
+        public string addProduct(Add itmadd)
+        {
+            var val = string.Empty;
+            try
+            {
+                Uri uri = new Uri(string.Format(defaultHost().Trim() + "Default/Add"));
+                string jsonData = JsonConvert.SerializeObject(itmadd);
                 string response = string.Empty;
                 using (var client = new WebClient())
                 {

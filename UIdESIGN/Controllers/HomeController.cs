@@ -59,7 +59,8 @@ namespace UIdESIGN.Controllers
                             productCode = x["ProductCode"].ToString(),
                             amounT = double.Parse(x["amounT"].ToString()),
                             quantity = int.Parse(x["quantity"].ToString()),
-                            tdt = DateTime.Parse(x["tdt"].ToString())
+                            tdt = DateTime.Parse(x["tdt"].ToString()),
+                            photoImage = x["photoImage"].ToString()   
                         }).ToList();
                     }
                 }
@@ -98,19 +99,24 @@ namespace UIdESIGN.Controllers
         [HttpPost]
         public IActionResult AddProduct(Add itm)
         {
+            string _msg = string.Empty;
+            bool _isSuccess = false;
+            int _response = 0;
             try
             {
-                if (ModelState.IsValid)
-                {
-
-                }
+                var val = api.addProduct(itm);
+                var retval = JsonConvert.DeserializeObject<response<int>>(val);
+                _msg = retval.result.Equals(100) ? "Successful" : "Unsuccesful";
+                _isSuccess = _msg.Equals("Successful") ? true : false;
+                _response = _isSuccess.Equals(true) ? 100 : 101;
             }
-            catch (Exception)
+            catch (Exception ee)
             {
-
-                throw;
+                _response = 404;
+                _isSuccess = false;
+                _msg = ee.Message;
             }
-            return Json(new { });
+            return Json(new { isSuccess = _isSuccess, msg = _msg, response = _response });
         }
     }
 }

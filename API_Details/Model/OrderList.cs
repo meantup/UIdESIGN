@@ -14,6 +14,7 @@ namespace API_Details.Model
         public decimal amount { get; set; }
         public int quantity { get; set; }
         public DateTime tdt { get; set; }
+        public string image { get; set; }
     }
     public class OrderList1
     {
@@ -24,6 +25,7 @@ namespace API_Details.Model
         public decimal AmounT { get; set; }
         public int Quantity { get; set; }
         public DateTime TDT { get; set; }
+        public string photoImage { get; set; }
 
     }
     public class Response<T>
@@ -34,6 +36,7 @@ namespace API_Details.Model
     }
     public class Update
     {
+        public string image { get; set; }
         public string iname { get; set; }
         public string idesc { get; set; }
         public string icode { get; set; }
@@ -47,5 +50,6 @@ namespace API_Details.Model
         public string icode { get; set; }
         public decimal amount { get; set; }
         public int quantity { get; set; }
+        public string image { get; set; }
     }
 }

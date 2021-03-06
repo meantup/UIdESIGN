@@ -87,7 +87,8 @@ namespace UIdESIGN.Controllers
             bool _iSsuccess = true;
             string _msg = string.Empty;
             var retval = api.UpdateData(id, upd);
-            _msg = retval.Contains(Convert.ToString(1)) ? "Successfully Updated!" : "Unsuccessful Updated!";
+            var response = JsonConvert.DeserializeObject<response<int>>(retval);
+            _msg = response.result.Equals(1) ? "Successfully Updated!" : "Unsuccessful Updated!";
             _iSsuccess = _msg.Equals("Unsuccessful Updated!") ? false : true;
             return Json(new { isSuccess = _iSsuccess, msg = _msg });
         }

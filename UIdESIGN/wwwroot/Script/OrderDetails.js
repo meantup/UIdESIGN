@@ -28,9 +28,9 @@ $(function () {
     $('#update').on('click', function (e) {
         const formData = $('#UserUpdate').serialize();
         const fdata = $('#UserUpdate').serializeArray();
+        console.log(fdata);
         var count = 0;
         fdata.forEach(function (item, index) {
-            console.log(item.value);
             if (iname === item.value || idesc === item.value || icode === item.value || amount === item.value || quantity === item.value) {
                 count++;
             }
@@ -105,7 +105,7 @@ function inQuiry(d) {
         data: d,
         columns: [
             {
-                'data': "photoImage", "title" : "Product Photo",
+                'data': 'photoImage', "title" : "Product Photo",
                 "render": function (data) {
                     return '<img src="' + data + '" width="150px" height="150px">';
                 }

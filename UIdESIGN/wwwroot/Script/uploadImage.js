@@ -2,13 +2,26 @@
     $('#formdata').on('submit', function (e) {
         e.preventDefault();
         var formData = $('#formdata').serializeArray();
+        formData.push({ "name": "image", "value": reader.result })
+        //formData.push('image', reader.result)
+        console.log(formData)
         $.ajax({
             type: 'POST',
+            enctype: 'multipart/form-data',
             data: formData,
             dataType: 'json',
             url: url.addProduct,
             success: function (response) {
-                
+                if (response.isSuccess === true) {
+                    Swal.fire({
+                        allowOutsideClick: false,
+                        title: response.msg + "" + "Inserted!",
+                        html: "Product is already Inserted.",
+                        icon: 'success'
+                    }).then(function () {
+                        window.location.reload(); 
+                    });
+                }
             },
             failure: function (response) {
                 alert(response.d);
@@ -24,12 +37,10 @@ const proImg = document.getElementById("fileInput");
 const prevContainer = document.getElementById("imagePreview");
 const previewImage = prevContainer.querySelector(".image-preview__image");
 const previewDefaultText = prevContainer.querySelector(".image-preview__default-text");
-
+const reader = new FileReader();
 proImg.addEventListener("change", function () {
     const file = this.files[0];
     if (file) {
-        const reader = new FileReader();
-
         previewDefaultText.style.display = "none";
         previewImage.style.display = "block";
 
@@ -58,5 +69,6 @@ function validateFileType() {
             html: 'Please Select an Image Only.',
             icon: 'warning'
         });
+        image = $('#fileInput').val('');
     }
 }

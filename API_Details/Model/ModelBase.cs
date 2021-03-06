@@ -139,7 +139,7 @@ namespace API_Details.Model
                     }
                     await sql.ExecuteAsync("usp_UpdateItem", param: dynamic_, commandType: CommandType.StoredProcedure);
                     int res = dynamic_.Get<int>("retval");
-                    response.message = res == 1 ? "Successful" : "UnSuccessful";
+                    response.message = res == 1 ? "Successful" : "Unsuccessful";
                     response.Result = response.message == "Successful" ? 1 : 0;
                 }
             }

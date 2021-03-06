@@ -20,7 +20,7 @@ namespace UIdESIGN.Class
             return builder.Build().GetSection("Hosting").Value;
         }
         public string Details(Inquiry InQui)
-        {
+            {
             string val = string.Empty;
             try
             {

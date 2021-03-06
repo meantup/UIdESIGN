@@ -36,10 +36,10 @@ namespace API_Details.Model
     }
     public class Update
     {
-        public string image { get; set; }
-        public string iname { get; set; }
-        public string idesc { get; set; }
-        public string icode { get; set; }
+        //public string image { get; set; }
+        public string productName { get; set; }
+        public string productDesc { get; set; }
+        public string productCode { get; set; }
         public decimal amount { get; set; }
         public int quantity { get; set; }
     }

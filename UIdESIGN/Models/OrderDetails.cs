@@ -29,11 +29,11 @@ namespace UIdESIGN.Models
     public class Update
     {
         [Required]
-        public string iName { get; set; }
+        public string productName { get; set; }
         [Required]
-        public string iDesc { get; set; }
+        public string productDesc { get; set; }
         [Required]
-        public string iCode { get; set; }
+        public string productCode { get; set; }
         [Required]
         public double Amount { get; set; }
         [Required]

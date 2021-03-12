@@ -11,6 +11,9 @@ using UIdESIGN.Models.AppDBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using UIdESIGN.Models;
+using UIdESIGN.Class;
+using UIdESIGN.Repository;
+using AutoMapper;
 
 namespace UIdESIGN
 {
@@ -30,6 +33,7 @@ namespace UIdESIGN
             services.AddDbContext<AppDBContext>(x => x.UseSqlServer(connectionString));
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
             //services.AddScoped<IRepository, SampleDataDetails>();
+            services.AddScoped<IAdapterRepository, Adapter>();
             services.AddControllersWithViews();
         }
 

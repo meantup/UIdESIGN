@@ -15,7 +15,7 @@
                 if (response.isSuccess === true) {
                     Swal.fire({
                         allowOutsideClick: false,
-                        title: response.msg + "" + "Inserted!",
+                        title: response.msg + " " + "Inserted!",
                         html: "Product is already Inserted.",
                         icon: 'success'
                     }).then(function () {

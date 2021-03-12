@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,5 +53,12 @@ namespace API_Details.Model
         public decimal amount { get; set; }
         public int quantity { get; set; }
         public string image { get; set; }
+        //[NotMapped]
+        //public IFormFile ImageFile { get; set; }
+    } 
+    public class refno
+    {
+        public string status { get; set; }
+        public string referenceNo { get; set; }
     }
 }

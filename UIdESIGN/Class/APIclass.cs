@@ -9,22 +9,24 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using UIdESIGN.Models;
+using UIdESIGN.Repository;
 
 namespace UIdESIGN.Class
 {
-    public class APIclass
+    public class APIclass : IApiRepository
     {
-        public static string defaultHost()
+        private readonly string _baseurl;
+        public APIclass(string baseurl)
         {
-            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            return builder.Build().GetSection("Hosting").Value;
+            _baseurl = baseurl;
         }
+
         public string Details(Inquiry InQui)
-            {
+        {
             string val = string.Empty;
             try
             {
-                Uri uri = new Uri(string.Format(defaultHost().Trim() + "Default/Inquiry?startDate={0}&endDate={1}", InQui.startDate.Trim(), InQui.endDate.Trim()));
+                Uri uri = new Uri(string.Format(_baseurl + "Inquiry?startDate={0}&endDate={1}", InQui.startDate.Trim(), InQui.endDate.Trim()));
 
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -39,7 +41,7 @@ namespace UIdESIGN.Class
             }
             catch (Exception ex)
             {
-                val = "E99";
+                val = "ERROR404";
             }
             return val;
         }
@@ -48,7 +50,7 @@ namespace UIdESIGN.Class
             string val = string.Empty;
             try
             {
-                Uri uri = new Uri(string.Format(defaultHost().Trim() + "Default/Remove?id={0}", id));
+                Uri uri = new Uri(string.Format(_baseurl + "Remove?id={0}", id));
 
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -68,12 +70,36 @@ namespace UIdESIGN.Class
             }
             return val;
         }
+        public string PostData()
+        {
+            string val = string.Empty;
+            try
+            {
+                Uri uri = new Uri(string.Format(_baseurl + "SelectAll"));
+
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+
+                request.Method = "GET";
+                request.ProtocolVersion = HttpVersion.Version11;
+                request.ContentType = "application/json";
+                request.ServerCertificateValidationCallback = delegate { return true; };
+
+                StreamReader rsps = new StreamReader(request.GetResponse().GetResponseStream());
+
+                val = rsps.ReadToEnd();
+            }
+            catch (Exception)
+            {
+                val = "Error Response!";
+            }
+            return val;
+        }
         public string UpdateData(int id, Update up)
         {
             string val = string.Empty;
             try
             {
-                Uri uri = new Uri(string.Format(defaultHost().Trim() + "Default/Update?id={0}", id));
+                Uri uri = new Uri(string.Format(_baseurl + "Update?id={0}", id));
                 string jsonData = JsonConvert.SerializeObject(up);
                 string response = string.Empty;
                 using (var client = new WebClient())
@@ -94,7 +120,7 @@ namespace UIdESIGN.Class
             var val = string.Empty;
             try
             {
-                Uri uri = new Uri(string.Format(defaultHost().Trim() + "Default/Add"));
+                Uri uri = new Uri(string.Format(_baseurl + "Add"));
                 string jsonData = JsonConvert.SerializeObject(itmadd);
                 string response = string.Empty;
                 using (var client = new WebClient())

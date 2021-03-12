@@ -9,5 +9,6 @@ namespace UIdESIGN.Models.ServiceResponse
     {
         public T result { get; set; }
         public string message { get; set; }
+        public bool isSuccess { get; set; }
     }
 }

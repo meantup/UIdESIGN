@@ -107,7 +107,7 @@ function inQuiry(d) {
             {
                 'data': 'photoImage', "title" : "Product Photo",
                 "render": function (data) {
-                    return '<img src="' + data + '" width="150px" height="150px">';
+                    return '<img src="' + data + '" style="width:150px; border-radius:75px;">';
                 }
             },
             { 'data': 'productName', "title": "Item Name" },
@@ -158,6 +158,7 @@ function reset() {
 
 function remove(id_item, name) {
     //var table = $('#datatable').DataTable();
+    var id = id_item;  
     Swal.fire({
         allowOutsideClick: false,
         title: 'Are you sure you want to delete ' + name + '',
@@ -181,15 +182,21 @@ function remove(id_item, name) {
                             html: data.msg,
                             icon: 'success'
                         }).then(function () {
-                            $(row).closest('tr').remove();
+                            $('#datatable').DataTable().clear();
+                            const formData = $('#formdate').serializeArray(); 
+                            $.ajax({
+                                type: "POST",
+                                data: formData,
+                                dataType: 'json',
+                                url: url.historyOrder,
+                                success: function (response) {
+                                    inQuiry(response);
+                                }
+                            });
                         });
                     }
                 }
             });
         }
-
     });
-}
-function WholeNUmber() {
-
 }

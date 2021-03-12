@@ -52,6 +52,7 @@ namespace API_Details.Model
                         var name = item.Name;
                         var value = item.GetValue(add);
                         param.Add(name, value);
+                       
                     }
                     await con.ExecuteAsync("usp_InsertItemOrder",param,commandType:CommandType.StoredProcedure);
                     res.message = param.Get<int>("retval") == 100 ? "Successful" : "Unsuccessful";
@@ -77,8 +78,8 @@ namespace API_Details.Model
                     con.Open();
                     DynamicParameters param = new DynamicParameters();
                     param.Add("retval", SqlDbType.Int ,direction: ParameterDirection.Output);
-                    param.Add("@from",startDate,DbType.DateTime);
-                    param.Add("@to", endDate, DbType.DateTime);
+                    param.Add("from",startDate,DbType.DateTime);
+                    param.Add("to", endDate, DbType.DateTime);
                     var ss = con.Query<T>("usp_InquiryDate", param, commandType: CommandType.StoredProcedure).AsList();
                     var res = await Task.Run(()=> _mapper.Map<List<OrderList1>>(ss));
                     var serial = JsonConvert.SerializeObject(res);
@@ -116,6 +117,25 @@ namespace API_Details.Model
                 respnse.message = ee.Message;
             }
             return respnse;
+        }
+
+        public async Task<List<OrderList1>> selectAll()
+        {            
+            var conn = ConnectionString();
+            try
+            {
+                using (var con = new SqlConnection(conn))
+                {
+                    con.Open();
+                    var ss = con.Query<T>("loadAddProduct", commandType: CommandType.StoredProcedure).ToList();
+                    var res = await Task.Run(() => _mapper.Map<List<OrderList1>>(ss).ToList());
+                    return res;
+                }
+            }
+            catch (Exception)
+            {
+                return new List<OrderList1>();
+            }
         }
 
         public async Task<Response<int>> UpdateData(int id, Update listupd)

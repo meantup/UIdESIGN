@@ -1,9 +1,12 @@
 ﻿using API_Details.Model;
 using API_Details.Repository;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,10 +17,12 @@ namespace API_Details.Controllers
     public class DefaultController : ControllerBase
     {
         private readonly IRepository _repository;
+        private readonly IWebHostEnvironment _webhost;
 
-        public DefaultController(IRepository repository)
+        public DefaultController(IRepository repository,IWebHostEnvironment webhost)
         {
             _repository = repository;
+            _webhost = webhost;
         }
         [HttpGet("Inquiry")]
         public async Task<IActionResult> OrderList(string startDate, string endDate)
@@ -28,23 +33,31 @@ namespace API_Details.Controllers
         [HttpGet("Remove")]
         public async Task<IActionResult> RemoveItem(int id)
         {
-            var retval = new Response<int>();
-            retval = await _repository.RemoveRecord(id);
+            var retval = await _repository.RemoveRecord(id);
             return Ok(retval);
         }
         [HttpPost("Update")]
         public async Task<IActionResult> UpdateItem(int id, Update listup)
         {
-            var res = new Response<int>();
-            res = await _repository.UpdateData(id, listup);
+            var res = await _repository.UpdateData(id, listup);
             return Ok(res);
         }
         [HttpPost("Add")]
         public async Task<IActionResult> ADD_data(Add add)
         {
-            var res = new Response<int>();
-            res = await _repository.DataADD(add);
+            var res = await _repository.DataADD(add);
             return Ok(res);
         }
+        [HttpGet("SelectAll")]
+        public async Task<IActionResult> loadAll()
+        {
+            var res = await _repository.selectAll();
+            return Ok(res);
+        }
+        //[HttpPost("Purchase")]
+        //public async Task<IActionResult> soldProduct()
+        //{
+
+        //}
     }
 }

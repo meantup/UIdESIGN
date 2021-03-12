@@ -29,6 +29,7 @@ namespace API_Details
             services.AddControllers();
             services.AddScoped<IRepository, ModelBase<OrderList>>();
             services.AddAutoMapper(typeof(Startup));
+            services.AddCors();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -37,7 +38,9 @@ namespace API_Details
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors(options => options.WithOrigins("http://localhost:52652/")
+                .AllowAnyMethod()
+                .AllowAnyHeader());
             app.UseRouting();
 
             app.UseAuthorization();

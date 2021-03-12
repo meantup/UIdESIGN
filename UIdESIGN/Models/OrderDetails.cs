@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Core;
 using System.Web;
+using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UIdESIGN.Models
 {

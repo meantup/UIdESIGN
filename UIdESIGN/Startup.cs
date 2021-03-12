@@ -7,6 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UIdESIGN.Models.AppDBContext;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using UIdESIGN.Models;
+using UIdESIGN.Class;
+using UIdESIGN.Repository;
+using AutoMapper;
 
 namespace UIdESIGN
 {
@@ -22,6 +29,11 @@ namespace UIdESIGN
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString = Configuration.GetConnectionString("DefaultCon");
+            services.AddDbContext<AppDBContext>(x => x.UseSqlServer(connectionString));
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
+            //services.AddScoped<IRepository, SampleDataDetails>();
+            services.AddScoped<IAdapterRepository, Adapter>();
             services.AddControllersWithViews();
         }
 
@@ -37,16 +49,16 @@ namespace UIdESIGN
                 app.UseExceptionHandler("/Home/Error");
             }
             app.UseStaticFiles();
-
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Account}/{action=Login}/{id?}");
             });
         }
     }

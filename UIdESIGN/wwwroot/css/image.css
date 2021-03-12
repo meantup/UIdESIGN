@@ -1,0 +1,24 @@
+﻿.input-group-text {
+    width: 160px;
+}
+
+.image-preview {
+    height: 250px;
+    width: 300px;
+    border: 2px solid #dddddd;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #cccccc;
+}
+
+.image-preview__image {
+    display: none;
+    width: 100%;
+}
+
+.fileinput {
+    margin-top: 15px;
+}

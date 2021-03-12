@@ -1,0 +1,76 @@
+﻿@model UIdESIGN.Models.Add
+@{
+
+}
+
+<link href="~/css/image.css" rel="stylesheet" />
+<div class="mt-5 pt-5 col-md-8 offset-3">
+    <div class="card">
+        <div class="card-header"><i class="fas fa-cart-plus"></i>Add New Product</div>
+        <div class="card-body">
+            <div class="card-group"></div>
+            <form method="post" id="formdata" enctype="multipart/form-data">
+                <div class="form-group offset-1">
+                    &nbsp;&nbsp;
+                    <div class="input-group col-md-11">
+                        <div class="image-preview" id="imagePreview">
+                            <img src="" alt="Image Preview" class="image-preview__image" />
+                            <span class="image-preview__default-text">Image Product Here!</span>
+                        </div>
+                        <input type="file" id="fileInput" class="fileinput" onchange="validateFileType()" asp-for="image" name="image" required>
+                    </div>
+                    &nbsp;&nbsp;
+                    <div class="input-group col-md-11">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Product Name</span>
+                        </div>
+                        <input type="text" id="date1" asp-for="iName" required class="form-control">
+                    </div>
+                    &nbsp;&nbsp;
+                    <div class="input-group col-md-11">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Product Description</span>
+                        </div>
+                        <input type="text" id="date2" asp-for="iDesc" required class="form-control">
+                    </div>
+                    &nbsp;&nbsp;
+                    <div class="input-group col-md-11">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Product Code</span>
+                        </div>
+                        <input type="text" id="date2" asp-for="iCode" required class="form-control">
+                    </div>
+                    &nbsp;&nbsp;
+                    <div class="input-group col-md-11">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Amount</span>
+                        </div>
+                        <input type="number" id="date2" asp-for="Amount" required class="form-control">
+                    </div>
+                    &nbsp;&nbsp;
+                    <div class="input-group col-md-11">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Quantity</span>
+                        </div>
+                        <input type="number" id="date2" asp-for="Quantity" required class="form-control">
+                    </div>
+                    &nbsp;
+                    <div class="col-md-11">
+                        <button type="submit" id="sekret" class="form-control btn btn-success btn-block"><span class="fas fa-plus"></span>Add Product</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
+            <i>Product Version2021</i>
+        </div>
+    </div>
+</div>
+@section AddScript{
+    <script src="~/Script/uploadImage.js"></script>
+@*<script>
+   
+</script>*@
+  
+}
+

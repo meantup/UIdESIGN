@@ -1,0 +1,58 @@
+﻿@model UIdESIGN.Models.LoginModel
+@{
+    ViewData["Title"] = "LoginAccount";
+    Layout = "_AccountLayout";
+}
+<div class="card-content grey lighten-4" id="test1">
+    <div class="card-header">
+        <center><i class="fas fa-user-circle fa-8x"></i></center>
+        <div class="card-body">
+            <form class="offset-1" method="post" id="btnSubmit">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="row">
+                    <div class="input-group col-md-11">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text px-3 border-md border-right-0">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                        </div>
+                        <input id="username" type="text" asp-for="Email" placeholder="Email" class="form-control border-left-0 border-md">
+                    </div>
+                </div>
+                &nbsp;
+                <div class="row">
+                    <div class="input-group col-md-11">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text px-3 border-md border-right-0">
+                                <i class="fas fa-key"></i>
+                            </span>
+                        </div>
+                        <input id="Password" type="password" asp-for="Password" placeholder="Password" class="form-control border-left-0 border-md">
+                    </div>
+                </div>
+                &nbsp;
+                <div class="custom-control custom-checkbox">
+                    <input asp-for="RememberMe" type="checkbox" class="custom-control-input">
+                    <label class="custom-control-label" asp-for="RememberMe">@Html.DisplayNameFor(m => m.RememberMe)</label>
+                </div>
+                &nbsp;
+                <div class="row">
+                    <div class="input-group col-md-11">
+                        <div class="input-group">
+                            <button type="submit" id="btnSave" class="form-control btn btn-success btn-block"><span class="fas fa-power-off"></span> Login</button>
+                            @*<input type="submit" value="Login" name="Save" class="form-control btn-block btn-success">*@
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@*<script>
+    $(document).ready(function () {
+        $("#btnSubmit").click(function () {
+            $("#myModal").modal();
+        });
+    });
+</script>*@

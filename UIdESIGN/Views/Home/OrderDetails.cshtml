@@ -1,0 +1,114 @@
+﻿@using System.Data;
+@model UIdESIGN.Models.Inquiry
+@{
+    ViewData["Title"] = "OrderDetails";
+}
+<style>
+    #textgrop {
+        position: absolute;
+        margin-bottom: 0;
+        margin-top: -30px;
+        margin-left: 300px;
+    }
+
+    .spaniard {
+        width: 155px;
+    }
+</style>
+
+<div class="mt-5 pt-5">
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-history"></i>Purchase History&nbsp;
+            <form method="get" id="formdate">
+                <div class="input-group col-md-8 offset-4" id="textgrop">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">StartDate</span>
+                    </div>
+                    <input type="date" id="date1" asp-for="startDate" required class="form-control col-md-4">
+                    &nbsp;&nbsp;
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">EndDate</span>
+                    </div>
+                    <input type="date" id="date2" asp-for="endDate" required class="form-control col-md-4">
+                    &nbsp;&nbsp;
+                    <button type="submit" id="sekret" class="form-control btn btn-success btn-block col-md-4"><span class="fas fa-paper-plane"></span> View Order</button>
+                </div>
+            </form>
+        </div>
+        <div class="loadtable">
+            <table class="table table-hover table-bordered nav-tabs table-striped" id="datatable">
+            </table>
+        </div>
+        <div class="card-footer">
+            Card Footer
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edituser" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Update Item Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="get" id="UserUpdate" enctype="multipart/form-data">
+                    <div class="container" style="width:fit-content" id="updateInfo">
+                        <br />
+                        <div class="col-12">
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text spaniard"><b>Item Name</b></span>
+                                    </div>
+                                    <input type="text" placeholder="Item Name" name="productName" id="productName" class="input-sm form-control" maxlength="30" />
+                                    <center><b><span id="req1" style="color:red">Item Name is required</span><br /></b></center>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text spaniard"><b>Item Description</b></span>
+                                    </div>
+                                    <input type="text" placeholder="Item Description" name="productDesc" id="productDesc" class="input-sm form-control" maxlength="30" />
+                                    <center><b><span id="req2" style="color:red">Item Description is required</span><br /></b></center>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text spaniard"><b>Item Code</b></span>
+                                    </div>
+                                    <input type="text" placeholder="Item Code" name="productCode" id="productCode" class="input-sm form-control" maxlength="30" />
+                                    <center><b><span id="req3" style="color:red">Item Code is required</span><br /></b></center>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text spaniard"><b>Amount</b></span>
+                                    </div>
+                                    <input type="number" placeholder="Amount" name="amounT" id="amounT" class="input-sm form-control" maxlength="30" />
+                                    <center><b><span id="req4" style="color:red">Amount is required</span><br /></b></center>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text spaniard"><b>Quantity</b></span>
+                                    </div>
+                                    <input type="number" placeholder="Quantity" name="Quantity" id="quantity" class="input-sm form-control" maxlength="30" onchange="WholeNUmber()"/>
+                                    <center><b><span id="req5" style="color:red">Quantity is required</span><br /></b></center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="update" style="width:90px;color:white;">Update</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" style="width:90px;color:white;">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section OrderScript{
+   <script src="~/Script/OrderDetails.js"></script>
+}

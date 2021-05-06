@@ -5,6 +5,7 @@ var icode = "";
 var amount = "";
 var quantity = "";
 $(function () {
+
     $('#formdate').on('submit', function (e) {
         e.preventDefault();
         const formData = $('#formdate').serializeArray();
@@ -68,7 +69,6 @@ $(function () {
                                 dataType: 'json',
                                 url: url.historyOrder,
                                 success: function (response) {
-                                    console.log(response);
                                     inQuiry(response);
                                     $('#edituser').modal('hide');
                                 },
@@ -88,8 +88,9 @@ $(function () {
                             icon: 'warning'
                         }).then(function () {
 
-                        })
+                        });
                     }
+                   
                 }
             });
         }
@@ -148,7 +149,6 @@ function funclick(ID, n1, n2, n3, n4, n5) {
 
 }
 function reset() {
-    //$('#id').css("border-color", "gray"); $('#req0').hide();
     $('#productName').css("border-color", "gray"); $('#req1').hide();
     $('#productDesc').css("border-color", "gray"); $('#req2').hide();
     $('#productCode').css("border-color", "gray"); $('#req3').hide();
@@ -157,8 +157,6 @@ function reset() {
 }
 
 function remove(id_item, name) {
-    //var table = $('#datatable').DataTable();
-    var id = id_item;  
     Swal.fire({
         allowOutsideClick: false,
         title: 'Are you sure you want to delete ' + name + '',

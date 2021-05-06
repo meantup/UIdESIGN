@@ -12,6 +12,6 @@ namespace API_Details.Repository
         Task<Response<int>> RemoveRecord(int icode);
         Task<Response<int>> UpdateData(int icode, Update listUp);
         Task<Response<int>> DataADD(Add add);
-        Task<List<OrderList1>> selectAll();
+        Task<Response<List<OrderList1>>> selectAll();
     }
 }

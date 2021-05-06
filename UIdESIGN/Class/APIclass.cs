@@ -41,7 +41,7 @@ namespace UIdESIGN.Class
             }
             catch (Exception ex)
             {
-                val = "ERROR404";
+                val = ex.Message;
             }
             return val;
         }

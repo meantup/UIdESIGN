@@ -17,7 +17,7 @@ namespace UIdESIGN.Models
         [Required]
         public string productName { get; set; }
         [Required]
-        public string productDesc { get; set; }
+        public string productDesc { get; set; }     
         [Required]
         public string productCode { get; set; }
         [Required]

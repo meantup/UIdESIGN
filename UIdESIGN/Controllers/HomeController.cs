@@ -19,7 +19,7 @@ using UIdESIGN.Repository;
 namespace UIdESIGN.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : Controller 
     {
         private readonly IAdapterRepository _adapter = new Adapter();
 
@@ -54,15 +54,23 @@ namespace UIdESIGN.Controllers
                     }).ToList();
                 }
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 throw;
             }
             return View(order);
         }
-        public IActionResult sample()
+        public IActionResult Design()
         {
             return View();
+        }
+        public IActionResult Review()
+        {
+            var item = new {
+                Name = "asd",
+                Usernmae = "asdasd"
+            };
+            return View(item);
         }
         [HttpGet]
         public IActionResult OrderDetails()
@@ -73,7 +81,6 @@ namespace UIdESIGN.Controllers
         public IActionResult Order(Inquiry inQui)
         {
             var list = new List<OrderDetails>();
-            //var response = new response<List<OrderDetails>>();
             DataTable dt = new DataTable();
             try
             {
@@ -94,7 +101,7 @@ namespace UIdESIGN.Controllers
                             amounT = double.Parse(x["amounT"].ToString()),
                             quantity = int.Parse(x["quantity"].ToString()),
                             tdt = DateTime.Parse(x["tdt"].ToString()),
-                            photoImage = x["photoImage"].ToString()   
+                            photoImage = x["photoImage"].ToString()
                         }).ToList();
                     }
                 }
@@ -155,7 +162,7 @@ namespace UIdESIGN.Controllers
         {
             var response = new response<int>();
             try
-            {
+            {   
                 //itm.image = await SaveImage(itm.formFile);
                 var val = _adapter.api.addProduct(itm);
                 var retval = JsonConvert.DeserializeObject<response<int>>(val);
@@ -163,7 +170,7 @@ namespace UIdESIGN.Controllers
                 response.isSuccess = response.message.Equals("Successful") ? true : false;
                 response.result = response.isSuccess.Equals(true) ? 100 : 101;
             }
-            catch (Exception ee)
+            catch (Exception)
             {
                 response.result = 404;
                 response.isSuccess = false;

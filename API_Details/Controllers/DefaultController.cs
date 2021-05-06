@@ -53,11 +53,6 @@ namespace API_Details.Controllers
         {
             var res = await _repository.selectAll();
             return Ok(res);
-        }
-        //[HttpPost("Purchase")]
-        //public async Task<IActionResult> soldProduct()
-        //{
-
-        //}
+        }   
     }
 }

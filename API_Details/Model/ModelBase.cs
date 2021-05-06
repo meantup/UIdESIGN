@@ -20,13 +20,12 @@ namespace API_Details.Model
         {
             _mapper = mapper;
         }
-        public string ConnectionString()
+        public static string ConnectionString()
         {
             try
             {
                 var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-                var ss = builder.Build().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value;
-                return ss;
+                return builder.Build().GetSection("ConnectionStrings").GetSection("DefaultConnection").Value;
             }
             catch (Exception)
             {
@@ -118,8 +117,8 @@ namespace API_Details.Model
             }
             return respnse;
         }
-
-        public async Task<List<OrderList1>> selectAll()
+            
+        public async Task<Response<List<OrderList1>>> selectAll()
         {            
             var conn = ConnectionString();
             try
@@ -128,13 +127,13 @@ namespace API_Details.Model
                 {
                     con.Open();
                     var ss = con.Query<T>("loadAddProduct", commandType: CommandType.StoredProcedure).ToList();
-                    var res = await Task.Run(() => _mapper.Map<List<OrderList1>>(ss).ToList());
+                    var res = await Task.Run(() => _mapper.Map<Response<List<OrderList1>>>(ss));
                     return res;
                 }
             }
             catch (Exception)
             {
-                return new List<OrderList1>();
+                return new Response<List<OrderList1>>();
             }
         }
 

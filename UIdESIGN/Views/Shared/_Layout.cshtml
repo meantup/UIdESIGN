@@ -10,16 +10,19 @@
     <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <link href="~/lib/datatables/css/jquery.dataTables.css" rel="stylesheet" />
     <link href="~/lib/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+
+
 </head>
 <body>
     <header>
-        @if (User.Identity.IsAuthenticated)
-        {
-            <nav class="navbar navbar-expand bg-info navbar-dark navbar-fixed-top ">
-                <a class="navbar-brand">User Info</a>
+     
+        <nav class="navbar navbar-expand bg-info navbar-dark navbar-fixed-top ">
+            <a class="navbar-brand">User Info</a>
+            @if (User.Identity.IsAuthenticated)
+            {
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i>Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-user-edit"></i>Account</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Design"><i class="fas fa-user-edit"></i>Account</a></li>
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="AddItem"><i class="fas fa-cart-plus"></i>New Product</a></li>
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="OrderDetails"><i class="fas fa-history"></i>Purchase History</a></li>
                 </ul>
@@ -28,47 +31,12 @@
                     <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                     @*<li class="nav-item"><a class="nav-link" href="login"><i class="fas fa-sign-in-alt"></i> Login</a></li>*@
                 </ul>
-            </nav>
-            <!--<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                <div class="container">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UIdESIGN</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
+            }
+            else
+            {
 
-                        </ul>-->
-            @*<ul class="navbar-nav flex-grow-1">
-                   <li class="nav-item">
-                       <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                   </li>
-                   <li class="nav-item">
-                       <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
-                   </li>
-                </ul>*@
-            <!--</div>
-                    <div class="nav navbar-nav navbar-left">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout"><i class="fa fa-sign-out"></i>Logout</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>-->
-        }
-        else
-        {
-
-        }
+            }
+        </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -76,11 +44,11 @@
         </main>
     </div>
 
-    @*<footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted">
             <div class="container">
                 &copy; 2021 - UIdESIGN - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
             </div>
-        </footer>*@
+    </footer>
 <script>
     var url = {
         historyOrder: '@Url.Action("Order","Home")',

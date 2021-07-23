@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UIdESIGN.Repository
+namespace API_Details.Repository
 {
     public interface IAdapterRepository
     {
-        public IApiRepository api { get; }
+        IRepository repos { get; }
     }
 }

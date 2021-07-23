@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,19 +22,15 @@ namespace UIdESIGN.Controllers
     [Authorize]
     public class HomeController : Controller 
     {
-        private readonly IAdapterRepository _adapter = new Adapter();
+        private readonly IAdapterRepository _adapter;
+        private readonly IWebHostEnvironment _env;
 
-        //public HomeController(IAdapterRepository adapter)
-        //{
-        //    _adapter = adapter;
-        //}
-
-        private readonly IWebHostEnvironment env;
-
-        public HomeController(IWebHostEnvironment _env)
+        public HomeController(IAdapterRepository adapter, IWebHostEnvironment env)
         {
-            env = _env;
+            _adapter = adapter;
+            _env = env;
         }
+
         public IActionResult Index()
         {
             var order = new List<Add>();
@@ -89,6 +86,7 @@ namespace UIdESIGN.Controllers
                     var retval = _adapter.api.Details(inQui);
                     var res = JsonConvert.DeserializeObject<response<List<OrderDetails>>>(retval);
                     var data = JsonConvert.SerializeObject(res.result);
+
                     dt = (DataTable)JsonConvert.DeserializeObject(data, typeof(DataTable));
                     if (res.message.Equals("Successful"))
                     {
@@ -126,7 +124,7 @@ namespace UIdESIGN.Controllers
             }
             catch (Exception)
             {
-                response.message = "Internal Code Error, Please Contact Your Developer!";
+                response.message = "Internal Code Error, Please Contact Developer!";
                 response.isSuccess = false;
                 response.result = 404;
             }
@@ -163,7 +161,6 @@ namespace UIdESIGN.Controllers
             var response = new response<int>();
             try
             {   
-                //itm.image = await SaveImage(itm.formFile);
                 var val = _adapter.api.addProduct(itm);
                 var retval = JsonConvert.DeserializeObject<response<int>>(val);
                 response.message = retval.result.Equals(100) ? "Successful" : "Unsuccesful";
@@ -174,7 +171,7 @@ namespace UIdESIGN.Controllers
             {
                 response.result = 404;
                 response.isSuccess = false;
-                response.message = "Internal Code Error, Please Contact Your Developer!";
+                response.message = "Internal Code Error, Please Contact Developer!";
             }
             return Json(new { isSuccess = response.isSuccess, msg = response.message, response = response.result });
         }
@@ -183,7 +180,7 @@ namespace UIdESIGN.Controllers
         {
             string imageName = new String(Path.GetFileNameWithoutExtension(ImageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
             imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(ImageFile.FileName);
-            var imagePath = Path.Combine(env.ContentRootPath, "Image", imageName);
+            var imagePath = Path.Combine(_env.ContentRootPath, "Image", imageName);
             using (var fileStream = new FileStream(imagePath, FileMode.Create))
             {
                 await ImageFile.CopyToAsync(fileStream);

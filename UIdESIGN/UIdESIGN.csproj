@@ -65,7 +65,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Image\" />
+    <Folder Include="Image\Cover\" />
     <Folder Include="Scripts\" />
   </ItemGroup>
 

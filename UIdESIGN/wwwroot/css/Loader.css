@@ -1,0 +1,45 @@
+﻿.no-modal-bg .modal-backdrop {
+    background-color: #c1c1c1;
+}
+
+.spinner-1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: large;
+    font-weight: bold;
+    text-shadow: 10px 3px 3px #c1c1c1;
+    z-index: 1000;
+}
+
+    .spinner-1:before {
+        content: "";
+        box-sizing: border-box;
+        position: absolute;
+        height: 200px;
+        width: 200px;
+        margin-top: -80px;
+        margin-left: -20px;
+        border-radius: 50%;
+        border: 2px solid transparent;
+        border-top-color: #c71a1a;
+        border-top-width: 6px;
+        border-bottom-width: 6px;
+        border-bottom-color: #c71a1a;
+        z-index: 1000;
+        animation: spinner 0.7s ease infinite;
+    }
+
+@@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

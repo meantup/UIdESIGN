@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -16,17 +17,21 @@ namespace UIdESIGN.Class
     public class APIclass : IApiRepository
     {
         private readonly string _baseurl;
-        public APIclass(string baseurl)
+        private readonly IConfiguration _configuration;
+        private readonly string _host;
+        private SqlConnection _connection;
+        public APIclass(IConfiguration configuration)
         {
-            _baseurl = baseurl;
+            _configuration = configuration;
+            _host = _configuration["Hosting"];
+            _connection = new SqlConnection(_configuration["ConnectionStrings:DefaultCon"]);
         }
-
         public string Details(Inquiry InQui)
         {
             string val = string.Empty;
             try
             {
-                Uri uri = new Uri(string.Format(_baseurl + "Inquiry?startDate={0}&endDate={1}", InQui.startDate.Trim(), InQui.endDate.Trim()));
+                Uri uri = new Uri(string.Format(_host + "Inquiry?startDate={0}&endDate={1}", InQui.startDate.Trim(), InQui.endDate.Trim()));
 
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -50,7 +55,7 @@ namespace UIdESIGN.Class
             string val = string.Empty;
             try
             {
-                Uri uri = new Uri(string.Format(_baseurl + "Remove?id={0}", id));
+                Uri uri = new Uri(string.Format(_host + "Remove?id={0}", id));
 
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -75,7 +80,7 @@ namespace UIdESIGN.Class
             string val = string.Empty;
             try
             {
-                Uri uri = new Uri(string.Format(_baseurl + "SelectAll"));
+                Uri uri = new Uri(string.Format(_host + "SelectAll"));
 
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
 
@@ -99,7 +104,7 @@ namespace UIdESIGN.Class
             string val = string.Empty;
             try
             {
-                Uri uri = new Uri(string.Format(_baseurl + "Update?id={0}", id));
+                Uri uri = new Uri(string.Format(_host + "Update?id={0}", id));
                 string jsonData = JsonConvert.SerializeObject(up);
                 string response = string.Empty;
                 using (var client = new WebClient())
@@ -120,7 +125,7 @@ namespace UIdESIGN.Class
             var val = string.Empty;
             try
             {
-                Uri uri = new Uri(string.Format(_baseurl + "Add"));
+                Uri uri = new Uri(string.Format(_host + "Add"));
                 string jsonData = JsonConvert.SerializeObject(itmadd);
                 string response = string.Empty;
                 using (var client = new WebClient())

@@ -9,9 +9,9 @@ namespace API_Details.Repository
     public interface IRepository
     {
         Task<Response<List<OrderList1>>> postItem(string startDate, string endDate);
-        Task<Response<int>> RemoveRecord(int icode);
-        Task<Response<int>> UpdateData(int icode, Update listUp);
-        Task<Response<int>> DataADD(Add add);
+        Task<Response<dynamic>> RemoveRecord(int icode);
+        Task<Response<dynamic>> UpdateData(int icode, Update listUp);
+        Task<Response<dynamic>> DataADD(Add add);
         Task<Response<List<OrderList1>>> selectAll();
     }
 }

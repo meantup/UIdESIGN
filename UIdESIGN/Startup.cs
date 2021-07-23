@@ -29,11 +29,12 @@ namespace UIdESIGN
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = Configuration.GetConnectionString("DefaultCon");
-            services.AddDbContext<AppDBContext>(x => x.UseSqlServer(connectionString));
+            //string connectionString = Configuration.GetConnectionString("DefaultCon");
+            //services.AddDbContext<AppDBContext>(x => x.UseSqlServer(connectionString));
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
             //services.AddScoped<IRepository, SampleDataDetails>();
-            services.AddScoped<IAdapterRepository, Adapter>();
+            services.AddSingleton<IAdapterRepository, Adapter>();
+            services.AddSingleton<IApiRepository, APIclass>();
             services.AddControllersWithViews();
         }
 

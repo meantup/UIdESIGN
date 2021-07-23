@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,16 +10,11 @@ namespace UIdESIGN.Class
     public class Adapter : IAdapterRepository
     {
 
-       public IApiRepository api { get; }
+        public IApiRepository api { get; }
 
-        public Adapter()
+        public Adapter(IConfiguration configuration)
         {
-            api = new APIclass(baseUrl.defaultHost());
-        }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
+            api = new APIclass(configuration);
         }
     }
 }

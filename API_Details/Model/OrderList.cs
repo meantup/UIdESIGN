@@ -38,7 +38,6 @@ namespace API_Details.Model
     }
     public class Update
     {
-        //public string image { get; set; }
         public string productName { get; set; }
         public string productDesc { get; set; }
         public string productCode { get; set; }
@@ -53,8 +52,7 @@ namespace API_Details.Model
         public decimal amount { get; set; }
         public int quantity { get; set; }
         public string image { get; set; }
-        //[NotMapped]
-        //public IFormFile ImageFile { get; set; }
+        public string refno { get; set; }
     } 
     public class refno
     {

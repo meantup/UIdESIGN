@@ -66,7 +66,7 @@ function validateFileType() {
         Swal.fire({
             allowOutsideClick: false,
             title: 'Reminder',
-            html: 'Please Select an Image Only.',
+            html: 'Please Select an Image Only!',
             icon: 'warning'
         });
         image = $('#fileInput').val('');

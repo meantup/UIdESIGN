@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace UIdESIGN.Repository
 {
-    public interface IAdapterRepository: IDisposable
+    public interface IAdapterRepository
     {
         public IApiRepository api { get; }
     }

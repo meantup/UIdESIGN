@@ -6,79 +6,145 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <title>Purchase</title>
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppin', sans-serif;
+    }
+    .wrapper{
+        width: 705px;
+        margin: 20px auto;
+        padding: 20px;
+    }
+    h1{
+        display: inline-block;
+        background-color: white;
+        color: #ef4478;
+        font-size: 15px;
+        font-weight: normal;
+        text-transform: uppercase;
+        padding: 4px 20px;
+        float: left;
+    }
+    /* body{
+         height: 100vh;
+         width: 100%;
+         background: linear-gradient(to bottom, #68EACC 0%,#497BE8 100%);
+     }
+
+     .box{
+         width:80%;
+         height:200px;
+         background: red;
+         margin: 10px auto;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         padding: 0 5px 5px 0px;
+     }*/
+    /* main{
+        min-height:100vh;
+        background: linear-gradient(to right top,#65dfc9,#6cdbeb);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .glass{
+        background: white;
+        min-height: 80vh;
+        width: 60%;
+        background: linear-gradient(
+            to right bottom,
+            rgba(255,255,255,0.7),
+            rgba(255,255,255,0.3)
+        );
+        border-radius: 2rem;
+    }
+     .circle1, .circle2 {
+         background: white;
+         background: linear-gradient( to right bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.1) );
+         height: 20rem;
+         width: 20rem;
+         position: absolute;
+     }
+     .circle1 {
+         top: 5%;
+         left: 15%;
+     }
+     .circle2 {
+         bottom: 5%;
+         left: 10%;
+     }*/
+    .box-area {
+        background: linear-gradient( to right bottom, rgba(255,255,255,0.7), rgba(255,255,255,0.3) );
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    .single-box{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 150px;
+        height: auto;
+        border-radius: 4px;
+        background-color: #fff;
+        text-align: center;
+        margin: 20px;
+        padding: 20px;
+        transition: .3s;
+    }
     img{
-        width:200px;
-        border-radius:100px;
-        float:left;
-        padding: 10px;
+        height: 150px;
+        width: 150px;
     }
 </style>
-@foreach (var item in Model)
+@*@foreach (var item in Model)
 {
-    <div>
-        <img src="@item.image" alt="Image Preview"/>
+    <div class="box-area">
+        <div class="single-box">
+            <div class="img-area"><img src="@item.image" /></div>
+            <div class="header-text"><strong>@item.iName</strong></div>
+            <p>@item.iDesc</p>
+            <p>@item.iCode</p>
+            <p>@item.Amount</p>
+            <p>@item.Quantity</p>
+        </div>
     </div>
-    @*<div class="mt-5 pt-5 col-md-8 offset-3">
-            <div class="card">
-                <div class="card-header"><i class="fas fa-cart-plus"></i>Product</div>
-                <div class="card-body">
-                    <div class="card-group"></div>
-                    <form method="post" id="formdata" enctype="multipart/form-data">
-                        <div class="form-group offset-1">
-                            &nbsp;&nbsp;
-                            <div class="input-group col-md-11">
-                                <div class="image-preview" id="imagePreview">
-                                    <img src="@item.image" alt="Image Preview" class="image-preview__image" height="150px" width="150px" />
-                                </div>
-                            </div>
-                            &nbsp;&nbsp;
-                            <div class="input-group col-md-11">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Product Name</span>
-                                </div>
-                                <input type="text" id="date1" asp-for="@item.iName" disabled class="form-control">
-                            </div>
-                            &nbsp;&nbsp;
-                            <div class="input-group col-md-11">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Product Description</span>
-                                </div>
-                                <input type="text" id="date2" asp-for="@item.iDesc" disabled class="form-control">
-                            </div>
-                            &nbsp;&nbsp;
-                            <div class="input-group col-md-11">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Product Code</span>
-                                </div>
-                                <input type="text" id="date2" asp-for="@item.iCode" disabled class="form-control">
-                            </div>
-                            &nbsp;&nbsp;
-                            <div class="input-group col-md-11">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Amount</span>
-                                </div>
-                                <input type="number" id="date2" asp-for="@item.Amount" disabled class="form-control">
-                            </div>
-                            &nbsp;&nbsp;
-                            <div class="input-group col-md-11">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Available</span>
-                                </div>
-                                <input type="number" id="date2" asp-for="@item.Quantity" disabled class="form-control">
-                            </div>
-                            &nbsp;
-                            <div class="col-md-11">
-                                <button type="submit" id="sekret" class="form-control btn btn-info btn-block"><span class="fas fa-plus"></span>Purchase</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="card-footer">
-                    <i>Product Version2021</i>
-                </div>
+}*@ 
+
+<br /><br />
+<div class="wrapper">
+    <h1>ON OFFER</h1>
+    <span><i class="fas fa-shopping-cart"></i></span>
+    <div class="clear"></div>
+    @foreach (var item in Model) { 
+        <br />
+        <div class="items">
+            <div class="item">
+                <img src="@item.image" alt="" />
+                <br />
+                <h2>@item.iName</h2>
+                <h2>@item.iDesc</h2>
+                <p>
+                    @item.Amount
+                </p>
+                <p>
+                    @item.Quantity
+                </p>
+                <button class="add-to-cart" type="button">Add To Cart</button>
             </div>
-        </div>*@
-}
+        </div>
+     }
+</div>
+
+
+
 
 
 

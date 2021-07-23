@@ -27,7 +27,8 @@ namespace API_Details
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IRepository, ModelBase<OrderList>>();
+            services.AddSingleton<IAdapterRepository, AdapterClass.AdapterClass>();
+            services.AddSingleton<IRepository, ModelBase>();
             services.AddAutoMapper(typeof(Startup));
             services.AddCors();
         }

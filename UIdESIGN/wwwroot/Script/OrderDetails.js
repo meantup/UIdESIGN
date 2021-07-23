@@ -4,6 +4,7 @@ var idesc = "";
 var icode = "";
 var amount = "";
 var quantity = "";
+
 $(function () {
     $('#formdate').on('submit', function (e) {
         e.preventDefault();
@@ -25,6 +26,39 @@ $(function () {
         });
     });
 
+    //$('#sekret').on('click', function (e) {
+    //    e.preventDefault();
+    //    const formData = $('#formdate').serializeArray();
+    //    if ($('#date1').val() !== "" && $('#date2').val() !== "") {
+    //        $.ajax({
+    //            type: "POST",
+    //            data: formData,
+    //            dataType: 'json',
+    //            url: url.historyOrder,
+    //            beforeSend: function () {
+
+    //                $('body').addClass('no-modal-bg');
+    //                $('#SpinnerLoader').modal({
+    //                    keyboard: false,
+    //                    show: true,
+    //                });
+    //                setTimeout(function () { }, 5000);
+    //            },
+    //            success: function (response) {
+    //                $('#SpinnerLoader').hide();
+    //                inQuiry(response);
+    //            },
+    //            failure: function (response) {
+    //                alert(response.d);
+    //            },
+    //            error: function (response) {
+    //                alert(response.d);
+    //            }
+    //        });
+    //    }
+       
+    //});
+
     $('#update').on('click', function (e) {
         const formData = $('#UserUpdate').serialize();
         const fdata = $('#UserUpdate').serializeArray();
@@ -39,7 +73,7 @@ $(function () {
             Swal.fire({
                 allowOutsideClick: false,
                 title: 'Reminder',
-                html: 'Please Update Some Data.',
+                html: 'Please Update Some Data!',
                 icon: 'info'
             }).then(function () {
                 $('#edituser').modal('hide');
@@ -68,7 +102,6 @@ $(function () {
                                 dataType: 'json',
                                 url: url.historyOrder,
                                 success: function (response) {
-                                    console.log(response);
                                     inQuiry(response);
                                     $('#edituser').modal('hide');
                                 },
@@ -88,8 +121,9 @@ $(function () {
                             icon: 'warning'
                         }).then(function () {
 
-                        })
+                        });
                     }
+                   
                 }
             });
         }
@@ -99,6 +133,10 @@ $(function () {
 function inQuiry(d) {
     if ($.fn.DataTable.isDataTable("#datatable")) {
         $("#datatable").DataTable().destroy();
+    }
+    d.forEach(function (item, index) {
+        console.log(item);
+    });
     }
     $("#datatable").DataTable(
     {
@@ -125,13 +163,14 @@ function inQuiry(d) {
                     var n5 = row["quantity"];
 
                     return '<button class="btn btn-sm btn-success" onclick="funclick(\'' + data + '\', \'' + n1 + '\', \'' + n2 + '\', \'' + n3 + '\', \'' + n4 + '\', \'' + n5 + '\')" data-toggle="modal" data-target="#edituser" style="width:50px;"><span class="fas fa-user-edit"></span></button>' +
-                        '<button class="btn btn-sm btn-danger" id="btnRemove" onclick="remove(\'' + data + '\', \'' + n1 + '\')" style="width:50px;"><span class="fas fa-trash"></span></button>'
+                           '<button class="btn btn-sm btn-danger" id="btnRemove" onclick="remove(\'' + data + '\', \'' + n1 + '\')" style="width:50px;"><span class="fas fa-trash"></span></button>'
                 }
             }
         ]
 
     });
 }
+
 function funclick(ID, n1, n2, n3, n4, n5) {
     reset();
     id = ID;
@@ -147,8 +186,8 @@ function funclick(ID, n1, n2, n3, n4, n5) {
     quantity = $('#quantity').val();
 
 }
+
 function reset() {
-    //$('#id').css("border-color", "gray"); $('#req0').hide();
     $('#productName').css("border-color", "gray"); $('#req1').hide();
     $('#productDesc').css("border-color", "gray"); $('#req2').hide();
     $('#productCode').css("border-color", "gray"); $('#req3').hide();
@@ -157,8 +196,6 @@ function reset() {
 }
 
 function remove(id_item, name) {
-    //var table = $('#datatable').DataTable();
-    var id = id_item;  
     Swal.fire({
         allowOutsideClick: false,
         title: 'Are you sure you want to delete ' + name + '',

@@ -8,5 +8,6 @@ namespace API_Details.Repository
     public interface IAdapterRepository
     {
         IRepository repos { get; }
+        IAccount account { get; }
     }
 }

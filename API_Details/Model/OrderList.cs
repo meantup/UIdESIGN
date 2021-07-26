@@ -33,8 +33,14 @@ namespace API_Details.Model
     public class Response<T>
     {
         public T Result { get; set; }
+        public int code { get; set; }
         public string message { get; set; }
         
+    }
+    public class SqlResponse
+    {
+        public string Msg { get; set; }
+        public string Result { get; set; }
     }
     public class Update
     {

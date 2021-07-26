@@ -13,9 +13,11 @@ namespace API_Details.AdapterClass
     public class AdapterClass : IAdapterRepository
     {
         public IRepository repos { get; }
-        public AdapterClass(IMapper mapper, IConfiguration _config)
+        public IAccount account { get; }
+        public AdapterClass(IMapper mapper, IConfiguration config)
         {
-            repos = new ModelBase(mapper, _config);
+            repos = new ModelBase(mapper, config);
+            account = new AccountClass(config);
         }
     }
 }

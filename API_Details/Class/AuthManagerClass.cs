@@ -27,44 +27,30 @@ namespace API_Details.Class
         public ResponseMessage<string> GenerateJwt(AccountModel.UserModel model)
         {
             ResponseMessage<string> res = new ResponseMessage<string>();
+
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["AuthManager:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            //claim is used to add identity to JWT token
-            //var claims = new[] {
-            //    new Claim(JwtRegisteredClaimNames.Sub, auth.uname),
-            //    //new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            //    new Claim("roles", "admin"),
-            //    new Claim("username", auth.uname),
-            //    new Claim("password", auth.pass),
-            //    new Claim("Date", DateTime.Now.ToString()),
-            //    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            //};
-
-            var header = new JwtHeader(credentials); 
-            DateTime expiry = DateTime.Now.AddMinutes(5);
-            var intExp = expiry.Second;
-            //int ts = (int)(expiry - new DateTime(2021, 7, 26)).TotalSeconds;
-
-            var payload = new JwtPayload {
-                { "sub", configuration["AuthManager:Issuer"]},
-                { "name", configuration["AuthManager:Issuer"]},
-                { "email", "markocariza@gmail.com"},
-                { "exp", intExp},
-                { "iis", "http://192.168.210.165/" },
-                { "aud", "http://localhost:51917/" }
+           
+            var claims = new[] {
+                new Claim(JwtRegisteredClaimNames.Sub, model.sub),
+                new Claim("roles", model.LoginId),
+                //new Claim("username", model.UserName),
+                //new Claim("password", model.UserPass),
+                new Claim("date", DateTime.Now.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
+            var token = new JwtSecurityToken(configuration["AuthManager:ValidIssuer"],
+            configuration["AuthManager:ValidAudience"],
+            claims,
+            expires: DateTime.Now.AddMinutes(30),
+            signingCredentials: credentials);
 
-            var secToken = new JwtSecurityToken(header, payload);
-            var handler = new JwtSecurityTokenHandler();
 
-            //var token = new JwtSecurityToken(configuration["AuthManager:Issuer"],
-            //  configuration["AuthManager:Issuer"],
-            //  expires: DateTime.Now.AddMinutes(5),
-            //  signingCredentials: credentials);
-            var tokenString = handler.WriteToken(secToken);
-            res.Data = tokenString;
+            res.Data = new JwtSecurityTokenHandler().WriteToken(token);
+            res.code = 200;
+            res.message = "Token Generated";
             return res;
+
         }
         public ResponseMessage<object> RegisterUser(RegisterModel user)
         {
@@ -79,13 +65,29 @@ namespace API_Details.Class
                 DynamicParameters param = new DynamicParameters();
                 param.Add("user", username);
                 param.Add("pass", password);
-                param.Add("retval", direction: ParameterDirection.Output);
-                var res = await connection.QueryAsync("usp_usercredAPI", param, commandType: CommandType.StoredProcedure);
+                param.Add("retval", DbType.Int32, direction: ParameterDirection.Output);
+                var res = await connection.QueryAsync<UserInfo>("usp_usercredAPI", param, commandType: CommandType.StoredProcedure);
                 int retval = param.Get<int>("retval");
                 if (retval.Equals(200))
                 {
+                    var ret = res.ToList();
                     AccountModel.UserModel model = new AccountModel.UserModel();
+                    model.Email = ret[0].Email.ToString();
+                    model.LoginId = ret[0].LoginId.ToString();
+                    model.UserName = ret[0].UserName.ToString();
+                    model.UserPass = ret[0].UserPass.ToString();
+                    model.sub = ret[0].sub.ToString();
 
+                    reponseMsg.token = GenerateJwt(model).Data;
+                    reponseMsg.code = 200;
+                    reponseMsg.message = "success";
+
+                }
+                else
+                {
+                    reponseMsg.message = "Error In Authenticate Users in Claiming Token!";
+                    reponseMsg.token = null;
+                    reponseMsg.param = null;
                 }
             }
             catch (SqlException sql)

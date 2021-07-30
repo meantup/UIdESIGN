@@ -1,5 +1,6 @@
 ﻿using API_Details.Model;
 using API_Details.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace API_Details.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class DefaultController : ControllerBase

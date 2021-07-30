@@ -1,4 +1,5 @@
-﻿using API_Details.Repository;
+﻿using API_Details.Helper;
+using API_Details.Repository;
 using AutoMapper;
 using Dapper;
 using Microsoft.Extensions.Configuration;

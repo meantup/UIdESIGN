@@ -73,8 +73,8 @@ namespace API_Details
                   ValidateAudience = true,
                   ValidateLifetime = true,
                   ValidateIssuerSigningKey = true,
-                  ValidIssuer = Configuration["AuthManager:Issuer"],
-                  ValidAudience = Configuration["AuthManager:Issuer"],
+                  ValidIssuer = Configuration["AuthManager:ValidIssuer"],
+                  ValidAudience = Configuration["AuthManager:ValidAudience"],
                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AuthManager:Key"]))
               };
             });
@@ -103,7 +103,7 @@ namespace API_Details
                 .AllowAnyMethod()
                 .AllowAnyHeader());
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

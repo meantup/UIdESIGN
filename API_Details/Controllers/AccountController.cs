@@ -1,7 +1,7 @@
-﻿using API_Details.Model;
+﻿using API_Details.Helper;
+using API_Details.Model;
 using API_Details.Repository;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -29,15 +29,18 @@ namespace API_Details.Controllers
             _logger = logger;
         }
         [HttpGet]
-        public IActionResult login(string username,string password)
+        public async Task<IActionResult> login(string username,string password)
         {
             AccountModel.UserModel usermodel = new AccountModel.UserModel();
             usermodel.UserName = username;
             usermodel.UserPass = password;
             //IAccountResult response = Unauthorized();
-            var res = _auth.Validate(username, password);
-
-            return Ok(res);
+            var res = await _auth.Validate(username, password);
+            if (res.code.Equals(200))
+            {
+                return Ok(res);
+            }
+            return BadRequest(res);
         }
         [HttpGet]
         [Route("NewAccount")]

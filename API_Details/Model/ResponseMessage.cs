@@ -14,7 +14,11 @@ namespace API_Details.Model
         public DynamicParameters param { get; set; }
         public string token { get; set; }
     }
-    public class ResponseToken
+    public class ResponseToken<T>
+    {
+        public T Data { get; set; }
+    }
+    public class TokenRequest
     {
         public string access_type { get; set; }
         public int token_expire { get; set; }

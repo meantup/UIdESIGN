@@ -24,6 +24,7 @@ namespace API_Details.Model
         }
         public class UserModel
         {
+            public int UserId { get; set; }
             public string LoginId { get; set; }
             public string UserName { get; set; }
             public string UserPass { get; set; }

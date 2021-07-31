@@ -17,8 +17,8 @@ namespace API_Details.Model
         {
             UserId = userinfo.UserId;
             LoginId = userinfo.LoginId;
-            UserName = userinfo.UserName;
-            UserPass = userinfo.UserPass;
+            //UserName = userinfo.UserName;
+            //UserPass = userinfo.UserPass;
             Email = userinfo.Email;
         }
     }

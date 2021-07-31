@@ -8,8 +8,9 @@ namespace API_Details.Repository
 {
     public interface IAuthManager
     {
-        ResponseMessage<string> GenerateJwt(AccountModel.UserModel model);
+        TokenRequest GenerateJwt(AccountModel.UserModel model);
         ResponseMessage<object> RegisterUser(RegisterModel user);
-        Task<ResponseMessage<UserInfo>> Validate(string username, string password);
+        UserInfo GetById(int id);
+        Task<ResponseToken<TokenRequest>> Validate(string username, string password);
     }
 }

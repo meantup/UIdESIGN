@@ -12,6 +12,6 @@ namespace API_Details.Class
     [Authorize]
     public abstract class BaseController : ControllerBase
     {
-        public AccountModel.UserModel _user => (AccountModel.UserModel)HttpContext.Items["APIUser"];
+        public UserInfo _user => (UserInfo)HttpContext.Items["User"];
     }
 }

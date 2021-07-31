@@ -13,5 +13,15 @@ namespace API_Details.Class
         {
             throw new NotImplementedException();
         }
+
+        public Task<UserInfo> GetAllUsers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserInfo> SelectUser(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

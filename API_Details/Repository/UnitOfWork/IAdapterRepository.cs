@@ -9,6 +9,5 @@ namespace API_Details.Repository
     {
         IRepository repos { get; }
         IAccount account { get; }
-        IUserService userService { get; }
     }
 }

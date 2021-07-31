@@ -28,33 +28,29 @@ namespace API_Details.Controllers
             _mapper = mapper;
             _logger = logger;
         }
-        [HttpGet]
+        [HttpGet("Authenticate")]
         public async Task<IActionResult> login(string username,string password)
         {
-            AccountModel.UserModel usermodel = new AccountModel.UserModel();
-            usermodel.UserName = username;
-            usermodel.UserPass = password;
-            //IAccountResult response = Unauthorized();
             var res = await _auth.Validate(username, password);
-            if (res.code.Equals(200))
+            if (res.Data != null)
             {
                 return Ok(res);
             }
             return BadRequest(res);
         }
-        [HttpGet]
-        [Route("NewAccount")]
-        public async Task<IActionResult> CreateAccount([FromBody] AccountModel.AccountDetail account)
-        {
-            var res = await _repo.account.createAccount(account);
-            return Ok(res);
-        }
-        [HttpGet]
-        [Route("OpenAccount/{username}/{password}")]
-        public async Task<IActionResult> OpenAccount(string username,string password)
-        {
-            var res = await _repo.account.OpenAccount(username, password);
-            return Ok(res);
-        }
+        //[HttpGet]
+        //[Route("NewAccount")]
+        //public async Task<IActionResult> CreateAccount([FromBody] AccountModel.AccountDetail account)
+        //{
+        //    var res = await _repo.account.createAccount(account);
+        //    return Ok(res);
+        //}
+        //[HttpGet]
+        //[Route("OpenAccount/{username}/{password}")]
+        //public async Task<IActionResult> OpenAccount(string username,string password)
+        //{
+        //    var res = await _repo.account.OpenAccount(username, password);
+        //    return Ok(res);
+        //}
     }
 }

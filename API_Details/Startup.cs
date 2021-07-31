@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using API_Details.Class;
+using API_Details.Helper;
 
 namespace API_Details
 {
@@ -99,16 +100,19 @@ namespace API_Details
                 });
             }
 
-            app.UseCors(options => options.WithOrigins("http://localhost:52652/")
+            app.UseCors(x => x.SetIsOriginAllowed(origin => true)
                 .AllowAnyMethod()
-                .AllowAnyHeader());
+                .AllowAnyHeader()
+                .AllowCredentials());
+                
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+            app.UseMiddleware<JwtMiddleware>();
+            app.UseEndpoints(x =>
             {
-                endpoints.MapControllers();
+                x.MapControllers();
             });
         }
     }

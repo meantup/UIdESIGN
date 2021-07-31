@@ -15,13 +15,10 @@ namespace API_Details.AdapterClass
         public IRepository repos { get; }
         public IAccount account { get; }
 
-        public IUserService userService { get; }
-
         public AdapterClass(IMapper mapper, IConfiguration config)
         {
             repos = new ModelBase(mapper, config);
             account = new AccountClass(config);
-            userService = new 
         }
     }
 }

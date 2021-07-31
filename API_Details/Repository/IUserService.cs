@@ -10,5 +10,6 @@ namespace API_Details.Repository
     {
         Task<AuthenticateResponse> Authenticate(AuthenticateRequest model);
         Task<UserInfo> GetAllUsers();
+        Task<UserInfo> SelectUser(int id);
     }
 }

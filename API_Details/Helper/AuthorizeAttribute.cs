@@ -11,41 +11,17 @@ using System.Threading.Tasks;
 
 namespace API_Details.Helper
 {
-    // You may need to install the Microsoft.AspNetCore.Razor.Runtime package into your project
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class AuthorizeAttribute : Attribute,IAuthorizationFilter
+    public class AuthorizeAttribute : Attribute, IAuthorizationFilter
     {
-        private readonly IList<Role> _roles;
-        public AuthorizeAttribute(params Role[] roles)
-        {
-            _roles = roles ?? new Role[] { };
-        }
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            ResponseMessage<string> response = new ResponseMessage<string>();
+            var user = (UserInfo)context.HttpContext.Items["User"];
 
-            var user = (AccountModel.UserModel)context.HttpContext.Items["APIUser"];
-            var token_expired = (bool)context.HttpContext.Items["expired_token"];
-            if (token_expired)
+            if (user == null)
             {
-                response.message = "Expired Token";
-                response.code = StatusCodes.Status401Unauthorized;
-                // not logged in or role not authorized
-                context.Result = new JsonResult(new { response }) { StatusCode = StatusCodes.Status401Unauthorized };
-            }
-            else if (user == null)
-            {
-                response.message = "Credential not validated";
-                response.code = StatusCodes.Status401Unauthorized;
-                // not logged in or role not authorized
-                context.Result = new JsonResult(new { response }) { StatusCode = StatusCodes.Status401Unauthorized };
-            }
-            else if (_roles.Any() && !_roles.Contains(user.UserRole))
-            {
-                response.message = "Access not allowed";
-                response.code = StatusCodes.Status401Unauthorized;
-                // not logged in or role not authorized
-                context.Result = new JsonResult(new { response }) { StatusCode = StatusCodes.Status401Unauthorized };
+                // not logged in
+                context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
             }
         }
     }

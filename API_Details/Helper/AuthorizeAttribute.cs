@@ -17,8 +17,13 @@ namespace API_Details.Helper
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var user = (UserInfo)context.HttpContext.Items["User"];
+            var token_expired = (bool)context.HttpContext.Items["expired_token"];
 
-            if (user == null)
+            if (token_expired)
+            {
+                context.Result = new JsonResult(new { message = "Token Expired" }) { StatusCode = StatusCodes.Status401Unauthorized };
+            }
+            else if (user == null)
             {
                 // not logged in
                 context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };

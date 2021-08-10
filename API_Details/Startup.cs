@@ -65,21 +65,20 @@ namespace API_Details
                     }
                 });
             });
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+            services.AddAuthentication(options => { options.DefaultAuthenticateScheme = "Bearer"; options.DefaultChallengeScheme = "Bearer"; })
+            .AddJwtBearer("Bearer", options =>
             {
-              options.TokenValidationParameters = new TokenValidationParameters
-              {
-                  ValidateIssuer = true,
-                  ValidateAudience = true,
-                  ValidateLifetime = true,
-                  ValidateIssuerSigningKey = true,
-                  ValidIssuer = Configuration["AuthManager:ValidIssuer"],
-                  ValidAudience = Configuration["AuthManager:ValidAudience"],
-                  IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AuthManager:Key"]))
-              };
+                  options.TokenValidationParameters = new TokenValidationParameters
+                  {
+                      ValidateIssuer = true,
+                      ValidateAudience = true,
+                      ValidateLifetime = true,
+                      ValidateIssuerSigningKey = true,
+                      ValidIssuer = Configuration["AuthManager:ValidIssuer"],
+                      ValidAudience = Configuration["AuthManager:ValidAudience"],
+                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AuthManager:Key"]))
+                  };
             });
-        
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -96,7 +95,7 @@ namespace API_Details
                 app.UseSwaggerUI(c =>
                 {
                     string swaggerJsonBasePath = string.IsNullOrWhiteSpace(c.RoutePrefix) ? "." : "..";
-                    c.SwaggerEndpoint("http://192.168.210.165/swagger/v1/swagger.json", "EWallet_API v1"); 
+                    c.SwaggerEndpoint("http://192.168.210.165/swagger/v1/swagger.json", "WEBAPI01 v1"); 
                 });
             }
 

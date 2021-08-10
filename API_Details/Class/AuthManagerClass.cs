@@ -33,7 +33,7 @@ namespace API_Details.Class
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["AuthManager:Key"]));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
                 var tokenHandler = new JwtSecurityTokenHandler();
-                res.token_expire = 1800;
+            
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new[] { new Claim("id", model.UserId.ToString()), new Claim("roles", model.LoginId), new Claim("email", model.Email), new Claim(JwtRegisteredClaimNames.Sub, model.sub), new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) }),
@@ -41,8 +41,10 @@ namespace API_Details.Class
                     SigningCredentials = credentials
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
-                res.token = tokenHandler.WriteToken(token);
                 res.access_type = "Bearer";
+                res.token_expire = 1800;
+                res.token = tokenHandler.WriteToken(token);
+             
               
             }
             catch (Exception ee)
